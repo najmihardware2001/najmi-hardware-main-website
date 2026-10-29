@@ -11,3 +11,9 @@
 - The frontend router was updated to 7.18.5 in the release to address the advisories affecting the previous 6.x dependency. The production frontend dependency audit reports zero known vulnerabilities at verification time.
 
 The deployable source is the root of this repository. The previous local development project and its Git remote/history were preserved separately.
+
+## Aiven Runtime configuration
+
+Root `compose.aiven.yaml` and the multi-stage `Dockerfile` build the same frontend and public-catalogue API into a non-root Node container on port 8080. The YAML was parsed and validated locally. Four additional test groups validate actual HTTP requests to the container's Node entry point, preview indexing controls, production caching/private routes/404s, and the manifest's single-app configuration. All **10** current automated test groups pass.
+
+No Docker engine is installed in this environment; the full Linux container image has not been built or run here. Aiven's remote build is still required. No Aiven application, paid plan, database or Cloudflare change was created by this update.

@@ -3,6 +3,8 @@
 Industrial Minimal storefront for **Najmi Hardware, Kuwait, established 2001**.
 Primary domain: **https://najmihardware.com**. Arabic is at `/`; English is at `/en/`.
 
+**Aiven Runtime deployment is supported:** select root **`compose.aiven.yaml`** in the GitHub deployment wizard. See [docs/AIVEN.md](docs/AIVEN.md) for the scan/deploy steps, custom domain setup and indexing switch. The existing Netlify configuration remains available as an alternative.
+
 ## What this first Netlify deployment runs
 
 - All 58 approved public catalogue products, 388 specification groups, existing prices, colour options and corrected product media.

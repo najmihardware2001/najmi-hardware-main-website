@@ -4,7 +4,7 @@ Prepared 29 October 2026. This repository has not configured your DNS, changed t
 
 ## Before publishing the new domain
 
-1. Deploy the repository to Netlify using the settings in the README. Use its temporary URL to review mobile and desktop pages. Confirm all 58 products and colour choices.
+1. Deploy the repository using `docs/AIVEN.md` for Aiven Runtime, or the Netlify settings in the README. Use the temporary URL to review mobile and desktop pages. Confirm all 58 products and colour choices. On Aiven, leave `INDEXING_ENABLED=false` until the custom domain is ready, then enable it and redeploy as documented.
 2. Connect `najmihardware.com` and `www.najmihardware.com`, choose the non-www domain as primary, verify HTTPS, then check the canonical URLs resolve successfully. Keep any email DNS records.
 3. Check all of these return the appropriate content: `/`, `/en/`, `/shop`, `/en/shop`, `/product/7849`, `/en/product/7849`, `/robots.txt`, `/sitemap.xml`, both child sitemaps, and `/api/health`. An invented URL must return 404, not the homepage.
 4. Test a multi-product quote on a real phone. The link targets +96599652718. Each item and specification is on its own line with blank lines between fields. No message is sent automatically. PDF download provides a separate copy for larger lists.

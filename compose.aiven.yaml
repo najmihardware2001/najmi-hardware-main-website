@@ -1,0 +1,22 @@
+# In Aiven Runtime: select this file, then Scan.
+# One application only. No database or other paid data service is requested.
+services:
+  najmi-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      PORT: "8080"
+      HOST: "0.0.0.0"
+      # Keep the temporary Aiven URL out of search results. Change to "true"
+      # after najmihardware.com is connected, HTTPS works and you approve launch.
+      INDEXING_ENABLED: "false"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
