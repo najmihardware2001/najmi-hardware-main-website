@@ -1,0 +1,22 @@
+{
+  "productSpecifications": "Product Specifications",
+  "diameter": "Diameter",
+  "length": "Length",
+  "color": "Colour",
+  "quantity": "Quantity",
+  "roll": "Roll",
+  "pricePerRoll": "Price per Roll",
+  "material": "Material",
+  "construction": "Construction",
+  "applications": "Applications",
+  "brand": "Brand",
+  "origin": "Origin",
+  "sku": "SKU",
+  "description": "Description",
+  "relatedProducts": "Related Products",
+  "selectVariant": "Select Variant",
+  "shopByCategory": "Shop by Category",
+  "ropeFinder": "Rope Finder",
+  "filters": "Filters",
+  "clearFilters": "Clear Filters"
+}

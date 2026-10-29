@@ -1,0 +1,152 @@
+[build]
+  command = "npm run build"
+  publish = "frontend/dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+  VITE_BACKEND_TYPE = "express"
+  VITE_EXPRESS_API_URL = "/api"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["express", "serverless-http"]
+  included_files = ["catalogue/public-catalogue.json"]
+
+# This first deployment is the public catalogue/WhatsApp quotation site.
+# The existing database-backed API source is in backend/ and has a separate
+# documented activation step. No local database is uploaded by a Netlify build.
+[[redirects]]
+  from = "https://www.najmihardware.com/*"
+  to = "https://najmihardware.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/uploads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[redirects]]
+  from = "/cart"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/checkout"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/account"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/compare"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/rfq-basket"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/quote/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/order-confirmation/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/shop/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/cart"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/checkout"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/account"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/compare"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/rfq-basket"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/admin"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/admin/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/quote/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/order-confirmation/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/en/shop/*"
+  to = "/app.html"
+  status = 200
+
+# Keep this last. Prerendered files and real assets shadow this rule.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

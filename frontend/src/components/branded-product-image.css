@@ -1,0 +1,8 @@
+.branded-product-photo{display:block;position:relative;max-width:100%;min-width:0;isolation:isolate}
+.branded-product-photo>img{display:block;max-width:100%}
+.branded-product-photo::after{content:"";position:absolute;left:var(--brand-left);top:var(--brand-top);width:var(--brand-width);aspect-ratio:3/2;background-image:var(--product-brand-sticker);background-position:center;background-size:contain;background-repeat:no-repeat;pointer-events:none;z-index:2;border-radius:1px;opacity:.88;mix-blend-mode:multiply;visibility:hidden}
+.branded-product-photo[data-brand-ready="true"]::after{visibility:visible}
+.branded-product-photo[data-brand-embedded="true"]::after{content:none;visibility:hidden}
+.product-card-media>.branded-product-photo,.product-main-photo>.branded-product-photo,.product-thumbnails button>.branded-product-photo,.im-hero-product>.branded-product-photo,.im-family-image>.branded-product-photo,.quote-item-image>.branded-product-photo{width:100%;height:100%}
+.a-plus-related .branded-product-photo{height:110px}
+.branded-product-photo.im-collection-photo{display:block}

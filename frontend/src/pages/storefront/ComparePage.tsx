@@ -1,0 +1,15 @@
+import {useEffect,useState} from 'react';
+import {Link} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+import {useDiscovery} from '../../DiscoveryContext';
+import {loadCatalogue,factLabel,productFacts,productName,reference,type Facet} from '../../services/catalogueDiscovery';
+import type {ApiProductTemplate} from '../../services/api';
+import BrandedProductImage from '../../components/BrandedProductImage';
+export default function ComparePage(){
+ const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',say=(en:string,a:string)=>ar?a:en,{compare,toggleCompare,openQuick}=useDiscovery();
+ const [all,setAll]=useState<ApiProductTemplate[]>([]),[error,setError]=useState(''),[loading,setLoading]=useState(true);
+ useEffect(()=>{loadCatalogue().then(setAll).catch(()=>setError(say('Catalogue unavailable. Please reload.','الكتالوج غير متاح. يرجى إعادة التحميل.'))).finally(()=>setLoading(false))},[]);
+ const products=compare.map(id=>all.find(p=>p.id===id)).filter((p):p is ApiProductTemplate=>!!p);
+ const fields:[Facet,string][]=[['material',say('Material','الخامة')],['construction',say('Construction','البنية')],['diameter',say('Recorded diameters','الأقطار المسجلة')],['length',say('Recorded lengths','الأطوال المسجلة')],['colour',say('Colour preferences','تفضيلات الألوان')],['application',say('Application notes','ملاحظات الاستخدام')]];
+ return <div className="im-wrap v2-page"><p className="im-eyebrow">NAJMI / {say('SIDE BY SIDE','جنباً إلى جنب')}</p><h1>{say('Compare the details.','قارن التفاصيل.')}</h1><p>{say('Up to three products. Missing values are not inferred. Availability and exact specification require confirmation.','حتى ثلاثة منتجات. لا نفترض القيم المفقودة. يلزم تأكيد التوفر والمواصفات الدقيقة.')}</p>{error?<p role="alert">{error}</p>:loading?<p role="status">{say('Loading…','جارٍ التحميل…')}</p>:!products.length?<div className="v2-empty"><h2>{say('Choose products to compare','اختر منتجات للمقارنة')}</h2><Link className="btn btn-primary" to="/shop">{say('Browse catalogue','تصفح الكتالوج')}</Link></div>:<div className="v2-comparison-scroll" tabIndex={0} role="region" aria-label={say('Product comparison table','جدول مقارنة المنتجات')}><table className="v2-comparison"><thead><tr><th scope="col">{say('Specification','المواصفات')}</th>{products.map(p=><th scope="col" key={p.id}><BrandedProductImage src={p.imageUrl} alt={productName(p,ar)} width="240" height="240"/><Link to={'/product/'+p.id}>{productName(p,ar)}</Link><small>{reference(p)}</small><button onClick={()=>toggleCompare(p.id)}>{say('Remove','إزالة')}</button></th>)}</tr></thead><tbody>{fields.map(([field,label])=><tr key={field}><th scope="row">{label}</th>{products.map(p=><td key={p.id}>{productFacts(p)[field].map(v=>factLabel(v,field,ar,p)).join(' · ')||say('Not documented — confirm','غير موثق — يرجى التأكيد')}</td>)}</tr>)}<tr><th scope="row">{say('Next step','الخطوة التالية')}</th>{products.map(p=><td key={p.id}><button className="btn btn-primary" onClick={()=>openQuick(p)}>{say('Configure / quote','المواصفات / عرض السعر')}</button></td>)}</tr></tbody></table></div>}</div>;
+}

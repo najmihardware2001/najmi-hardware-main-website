@@ -1,0 +1,3 @@
+import {useTranslation} from 'react-i18next';
+import RopeFinder from '../../components/RopeFinder';
+export default function FinderPage(){const {i18n}=useTranslation(),ar=i18n.language==='ar-KW';return <div className="im-wrap v2-page"><p className="im-eyebrow">NAJMI / {ar?'دليل الاختيار':'PRODUCT DISCOVERY'}</p><h1>{ar?'لنجد الحبل المناسب.':'Find your next rope.'}</h1><p>{ar?'ابدأ بمتطلباتك. نعرض خيارات من الكتالوج الفعلي دون ضمان أداء أو أحمال غير موثقة.':'Start with your requirements. Explore recorded catalogue options; confirm performance and load requirements with our team.'}</p><RopeFinder/></div>}

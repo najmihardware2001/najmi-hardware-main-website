@@ -1,0 +1,11 @@
+{
+  "myAccount": "My Account",
+  "orders": "Orders",
+  "profile": "Profile",
+  "logout": "Logout",
+  "login": "Login",
+  "register": "Register",
+  "orderHistory": "Order History",
+  "status": "Status",
+  "date": "Date"
+}

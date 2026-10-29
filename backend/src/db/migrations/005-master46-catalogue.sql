@@ -1,0 +1,27 @@
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS mapping_status TEXT NOT NULL DEFAULT 'LEGACY';
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS original_inventory_code TEXT;
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS original_parent_id TEXT;
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS size_value NUMERIC(12,3);
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS size_unit TEXT;
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS selling_unit TEXT;
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS source_client_sales_price NUMERIC(18,6);
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS computed_retail_price NUMERIC(18,3);
+ALTER TABLE product_variants ADD COLUMN IF NOT EXISTS media_approved BOOLEAN NOT NULL DEFAULT false;
+CREATE TABLE catalogue_evidence(id SERIAL PRIMARY KEY,batch TEXT NOT NULL,kind TEXT NOT NULL,parent_id INT NOT NULL REFERENCES products(id),source_row INT NOT NULL,raw JSONB NOT NULL,review_status TEXT NOT NULL DEFAULT 'PENDING',created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),UNIQUE(batch,kind,source_row));
+CREATE TABLE catalogue_photo_reviews(id SERIAL PRIMARY KEY,parent_id INT NOT NULL REFERENCES products(id),colour TEXT NOT NULL DEFAULT '',url TEXT NOT NULL,kind TEXT NOT NULL DEFAULT 'COLOUR',generated BOOLEAN NOT NULL DEFAULT false,status TEXT NOT NULL DEFAULT 'PENDING_APPROVAL' CHECK(status IN ('PENDING_APPROVAL','APPROVED','REJECTED')),reference_filename TEXT,reference_hash TEXT,prompt TEXT,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),UNIQUE(parent_id,url));
+CREATE TABLE catalogue_rfq_configs(rfq_id INT PRIMARY KEY REFERENCES rfqs(id),parent_id INT NOT NULL REFERENCES products(id),source_variant_id INT REFERENCES product_variants(id),mode TEXT NOT NULL DEFAULT 'WHOLESALE',configuration JSONB NOT NULL,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW());
+-- Existing RFQ UI compatibility. Additive only; original customer/order data remains untouched.
+ALTER TABLE rfqs ADD COLUMN IF NOT EXISTS contact_person TEXT;
+ALTER TABLE rfqs ADD COLUMN IF NOT EXISTS email TEXT;
+ALTER TABLE rfqs ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE rfqs ADD COLUMN IF NOT EXISTS delivery_location TEXT;
+ALTER TABLE rfqs ADD COLUMN IF NOT EXISTS assigned_staff_id INT REFERENCES admin_users(id);
+ALTER TABLE rfqs ADD COLUMN IF NOT EXISTS internal_notes TEXT;
+ALTER TABLE rfq_items ADD COLUMN IF NOT EXISTS product_name TEXT;
+ALTER TABLE rfq_items ADD COLUMN IF NOT EXISTS sku TEXT;
+ALTER TABLE rfq_items ADD COLUMN IF NOT EXISTS target_unit_price NUMERIC(18,3);
+ALTER TABLE quotations ADD COLUMN IF NOT EXISTS validity_days INT DEFAULT 30;
+ALTER TABLE quotations ADD COLUMN IF NOT EXISTS payment_terms TEXT;
+ALTER TABLE quotation_lines ADD COLUMN IF NOT EXISTS product_name TEXT;
+ALTER TABLE quotation_lines ADD COLUMN IF NOT EXISTS sku TEXT;
+ALTER TABLE quotation_lines ADD COLUMN IF NOT EXISTS line_total NUMERIC(18,3);

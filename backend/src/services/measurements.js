@@ -1,0 +1,8 @@
+// Parse literal numbers without discarding decimal points or fraction numerators.
+const fractions={'¼':.25,'½':.5,'¾':.75,'⅛':.125,'⅜':.375,'⅝':.625,'⅞':.875,'⅓':1/3,'⅔':2/3};
+function number(raw){let s=String(raw).trim();for(const [f,v]of Object.entries(fractions))if(s.endsWith(f))return (s.slice(0,-1).trim()?Number(s.slice(0,-1)):0)+v;if(/^\d+\.\d+\/\d+$/.test(s))s=s.replace('.', ' ');const m=s.match(/^(?:(\d+)\s+)?(\d+)\/(\d+)$/);if(m){if(!Number(m[3]))return null;return Number(m[1]||0)+Number(m[2])/Number(m[3])}return /^\d+(?:\.\d+)?$/.test(s)?Number(s):null;}
+const literal='(?:\\d+\\.\\d+\\/\\d+|\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+(?:\\.\\d+)?[¼½¾⅛⅜⅝⅞⅓⅔]?|[¼½¾⅛⅜⅝⅞⅓⅔])';
+const units={mm:'mm',cm:'cm',in:'in|inch(?:es)?|["″]',m:'m|mtr(?:s)?|met(?:er|re)s?',yard:'yards?|yds?|y',g:'g|gm|grm|grams?',kg:'kg|kgs?|kilograms?'};
+function extract(text){const result=[];const re=new RegExp('(?<![\\d.\\/])('+literal+')\\s*('+Object.values(units).join('|')+')(?![a-z])','gi');for(const m of String(text).matchAll(re)){const unit=Object.entries(units).find(([,r])=>new RegExp('^(?:'+r+')$','i').test(m[2]))?.[0];const value=number(m[1]);if(value!==null&&value>0)result.push({raw:m[0],value,unit,index:m.index})}return result;}
+function parse(text){const values=extract(text),compounds=[...String(text).matchAll(new RegExp('('+literal+')\\s*[×x*]\\s*('+literal+')(?:\\s*[×x*]\\s*('+literal+'))?\\s*(mm|cm|mtr|metres?|m|in(?:ch)?|kg)?','gi'))].map(m=>({raw:m[0],values:m.slice(1,4).filter(Boolean).map(number),unit:m[4]||null,orientation:'REQUIRES_PRODUCT_CONTEXT'}));return {raw:String(text),values,compound_dimensions:compounds,status:values.length||compounds.length?'LITERALS_EXTRACTED_REVIEW_CONTEXT':'UNSPECIFIED'};}
+module.exports={number,extract,parse};

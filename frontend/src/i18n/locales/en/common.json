@@ -1,0 +1,21 @@
+{
+  "addToCart": "Add to Cart",
+  "requestQuote": "Request Quote",
+  "shopNow": "Shop Now",
+  "available": "Available",
+  "outOfStock": "Out of Stock",
+  "price": "Price",
+  "kwd": "KWD",
+  "viewDetails": "View Details",
+  "search": "Search...",
+  "all": "All",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  "save": "Save",
+  "delete": "Delete",
+  "edit": "Edit",
+  "error": "An error occurred",
+  "success": "Success",
+  "loading": "Loading...",
+  "noResults": "No results found"
+}

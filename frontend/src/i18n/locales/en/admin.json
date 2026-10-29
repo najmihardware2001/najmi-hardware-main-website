@@ -1,0 +1,11 @@
+{
+  "adminPanel": "Admin Panel",
+  "dashboard": "Dashboard",
+  "manageProducts": "Manage Products",
+  "manageOrders": "Manage Orders",
+  "manageRfqs": "Manage RFQs",
+  "manageCustomers": "Customers",
+  "settings": "Settings",
+  "totalRevenue": "Total Revenue",
+  "recentOrders": "Recent Orders"
+}

@@ -1,0 +1,21 @@
+{
+  "addToCart": "أضف إلى السلة",
+  "requestQuote": "طلب عرض سعر",
+  "shopNow": "تسوّق الآن",
+  "available": "متوفر",
+  "outOfStock": "غير متوفر",
+  "price": "السعر",
+  "kwd": "د.ك",
+  "viewDetails": "عرض التفاصيل",
+  "search": "بحث...",
+  "all": "الكل",
+  "submit": "إرسال",
+  "cancel": "إلغاء",
+  "save": "حفظ",
+  "delete": "حذف",
+  "edit": "تعديل",
+  "error": "حدث خطأ",
+  "success": "نجاح",
+  "loading": "جاري التحميل...",
+  "noResults": "لم يتم العثور على نتائج"
+}

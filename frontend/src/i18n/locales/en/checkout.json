@@ -1,0 +1,16 @@
+{
+  "checkout": "Checkout",
+  "proceedToCheckout": "Proceed to Checkout",
+  "orderSummary": "Order Summary",
+  "subtotal": "Subtotal",
+  "delivery": "Delivery",
+  "total": "Total",
+  "deliveryAddress": "Delivery Address",
+  "paymentMethod": "Payment Method",
+  "placeOrder": "Place Order",
+  "orderConfirmed": "Order Confirmed",
+  "orderNumber": "Order Number",
+  "thankYou": "Thank you for your purchase!",
+  "continueShopping": "Continue Shopping",
+  "emptyCart": "Your cart is empty"
+}

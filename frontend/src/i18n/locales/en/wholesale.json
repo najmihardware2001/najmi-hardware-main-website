@@ -1,0 +1,13 @@
+{
+  "wholesaleInquiry": "Wholesale Inquiry",
+  "bulkOrder": "Bulk Order",
+  "requestAQuotation": "Request a Quotation",
+  "companyName": "Company Name",
+  "contactName": "Contact Name",
+  "email": "Email Address",
+  "phone": "Phone Number",
+  "notes": "Additional Notes",
+  "submitRfq": "Submit Quotation Request",
+  "rfqSubmitted": "Quotation Request Submitted Successfully",
+  "emptyRfq": "Your quotation basket is empty"
+}

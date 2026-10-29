@@ -1,0 +1,4 @@
+const decimals=Number(process.env.CURRENCY_DECIMALS??3),scale=10**decimals,currency=process.env.STORE_CURRENCY||'KWD';
+function minor(value){const text=String(value??'');if(!/^\d+(?:\.\d{1,3})?$/.test(text))throw Object.assign(Error('Invalid monetary amount.'),{status:400});const [whole,fraction='']=text.split('.');if(fraction.slice(decimals).replace(/0/g,''))throw Object.assign(Error('Amount exceeds currency precision.'),{status:400});const result=Number(whole)*scale+Number((fraction.slice(0,decimals)).padEnd(decimals,'0'));if(!Number.isSafeInteger(result)||result>999999999999)throw Object.assign(Error('Amount is too large.'),{status:400});return result;}
+function format(value){return (minor(value)/scale).toFixed(decimals);}
+module.exports={decimals:()=>decimals,scale:()=>scale,currency:()=>currency,minor,format};

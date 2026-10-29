@@ -1,0 +1,41 @@
+import {useEffect,useMemo,useState} from 'react';
+import {Link,useParams,useSearchParams} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+import SavedSelections from '../../components/SavedSelections';
+import ProductCard from '../../components/ProductCard';
+import CardSlideshowControl from '../../components/CardSlideshowControl';
+import AccessibleDialog from '../../components/AccessibleDialog';
+import {useDiscovery} from '../../DiscoveryContext';
+import {loadCatalogue,factLabel,searchScore,facetKeys,productFacts,matchesFacets,type Facet} from '../../services/catalogueDiscovery';
+import type {ApiProductTemplate} from '../../services/api';
+import {collectionFor,legacyCollection} from '../../services/storeCollections';
+import BrandedProductImage from '../../components/BrandedProductImage';
+
+export default function ShopPage(){
+ const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',say=(en:string,a:string)=>ar?a:en;
+ const {category}=useParams(),[params,setParams]=useSearchParams(),{saved,recent,openQuick}=useDiscovery();
+ const [products,setProducts]=useState<ApiProductTemplate[]>([]),[error,setError]=useState(''),[loading,setLoading]=useState(true),[open,setOpen]=useState(false),[attempt,setAttempt]=useState(0);
+ useEffect(()=>{let active=true;setLoading(true);setError('');loadCatalogue().then(p=>{if(active)setProducts(p)}).catch(()=>{if(active)setError(say('The catalogue is unavailable. Please retry.','الكتالوج غير متاح. يرجى المحاولة مجدداً.'))}).finally(()=>{if(active)setLoading(false)});return()=>{active=false}},[attempt]);
+ const update=(key:string,value:string)=>setParams(old=>{const next=new URLSearchParams(old);value?next.set(key,value):next.delete(key);return next},{replace:true});
+ const query=params.get('q')||'',collection=collectionFor(params.get('collection')||legacyCollection(params)||null),listMode=params.get('list');
+ const selected=Object.fromEntries(facetKeys.map(k=>[k,params.get(k)||''])) as Record<Facet,string>;
+ const base=useMemo(()=>products.filter(p=>{
+  if(category||params.get('category')){const c=category||params.get('category');if(![p.categoryId,p.category?.code].includes(c||''))return false}
+  const ref=String(p.metadata?.parentReference||'');
+  if(collection&&!(collection.refs as readonly string[]).includes(ref))return false;
+  if(params.get('collection')==='client-approved-20261023'&&!ref.startsWith('NEW-')&&!['ROP-035','ROP-036','ROP-009','CLIENT-GLITTER-RIBBON'].includes(ref))return false;
+  if(listMode==='saved'&&!saved.includes(p.id))return false;
+  if(listMode==='recent'&&!recent.includes(p.id))return false;
+  return searchScore(p,query)>0;
+ }),[products,params,category,saved,recent]);
+ const filtered=base.filter(p=>matchesFacets(p,selected)),sort=params.get('sort')||'featured';
+ const sorted=[...filtered].sort((a,b)=>sort==='name'? (ar?(a.nameAr||a.name):a.name).localeCompare(ar?(b.nameAr||b.name):b.name,ar?'ar':'en'):query?searchScore(b,query)-searchScore(a,query):listMode==='recent'?recent.indexOf(a.id)-recent.indexOf(b.id):0);
+ const labels:Record<Facet,string>={material:say('Material','الخامة'),construction:say('Construction','البنية'),diameter:say('Recorded diameter','القطر المسجل'),length:say('Recorded length','الطول المسجل'),colour:say('Colour preference','تفضيل اللون'),application:say('Application notes','ملاحظات الاستخدام')};
+ const categories=[...new Map(products.filter(p=>p.category).map(p=>[p.categoryId,p.category!])).values()],clear=()=>setParams({});
+ const filters=<div className="v2-filter-fields"><label>{say('Search products','البحث عن المنتجات')}<input type="search" value={query} onChange={e=>update('q',e.target.value)} placeholder={say('Name, SKU or material','الاسم أو رمز الصنف أو الخامة')}/></label>{categories.length>1&&<label>{say('Category','الفئة')}<select value={params.get('category')||category||''} onChange={e=>update('category',e.target.value)}><option value="">{say('All categories','جميع الفئات')}</option>{categories.map(c=><option value={c.id} key={c.id}>{ar?c.nameAr:c.name}</option>)}</select></label>}{facetKeys.map(k=>{
+  const candidates=base.filter(p=>matchesFacets(p,{...selected,[k]:''})),values=[...new Set(base.flatMap(p=>productFacts(p)[k]))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  if(!values.length)return null;
+  return <label key={k}>{labels[k]}<select data-testid={'filter-'+k} value={selected[k]} onChange={e=>update(k,e.target.value)}><option value="">{say('All','الكل')}</option>{values.map(v=><option key={v} value={v}>{factLabel(v,k,ar,base.find(p=>productFacts(p)[k].includes(v)))} ({candidates.filter(p=>productFacts(p)[k].includes(v)).length})</option>)}</select></label>;
+ })}<button className="btn btn-outline" onClick={clear}>{say('Clear filters','مسح التصفية')}</button><p className="catalogue-help">{say('Recorded dimensions and colour preferences need confirmation for the exact item.','تحتاج الأبعاد المسجلة وتفضيلات الألوان إلى تأكيد للصنف المحدد.')}</p></div>;
+ return <div className="v2-shop"><section className="v2-shop-hero im-wrap"><div><p className="im-eyebrow">NAJMI / {say('THE CATALOGUE','الكتالوج')}</p><h1>{listMode==='saved'?say('Your saved products','المنتجات المحفوظة'):listMode==='recent'?say('Recently viewed','شاهدتها مؤخراً'):collection?(ar?collection.ar:collection.en):say('Built around your requirements.','منتجات تلائم احتياجاتك.')}</h1><p>{say('Compare materials, explore colours and build an accurate requirement list.','قارن الخامات واستكشف الألوان وجهّز قائمة متطلبات دقيقة.')}</p><div className="v2-link-row"><Link to="/find">{say('Find my rope','اختيار الحبل')}</Link><Link to="/bulk-quote">{say('Bulk quote','عرض سعر بالجملة')}</Link><Link to="/shop?list=saved">{say('Saved','المحفوظة')} ({saved.length})</Link><Link to="/shop?list=recent">{say('Recently viewed','شاهدتها مؤخراً')}</Link></div></div>{products[0]?.imageUrl&&<BrandedProductImage src={products[0].imageUrl} alt="" width="300" height="300"/>}</section><div className="im-wrap v2-shop-layout"><aside className="v2-filter-rail">{filters}</aside><section className="shop-results">{listMode==='saved'&&<SavedSelections/>}<div className="v2-shop-toolbar"><p role="status">{loading?say('Loading…','جارٍ التحميل…'):`${sorted.length} ${say('products','منتج')}`}</p><button className="btn btn-outline v2-filter-trigger" data-testid="open-filters" onClick={()=>setOpen(true)}>{say('Filters','تصفية')}</button><label>{say('Sort','الترتيب')} <select aria-label={say('Sort products','ترتيب المنتجات')} value={sort} onChange={e=>update('sort',e.target.value)}><option value="featured">{say('Catalogue order','ترتيب الكتالوج')}</option><option value="name">{say('Product name','اسم المنتج')}</option></select></label><CardSlideshowControl/></div><div className="v2-active-filters">{query&&<button onClick={()=>update('q','')}>{query} ×</button>}{facetKeys.filter(k=>selected[k]).map(k=><button key={k} onClick={()=>update(k,'')}>{labels[k]}: {factLabel(selected[k],k,ar,products.find(p=>productFacts(p)[k].includes(selected[k])))} ×</button>)}</div>{open&&<AccessibleDialog title={say('Filter products','تصفية المنتجات')} onClose={()=>setOpen(false)}>{filters}<button className="btn btn-primary" onClick={()=>setOpen(false)}>{say('Show products','عرض المنتجات')} ({sorted.length})</button></AccessibleDialog>}{error?<div role="alert"><p>{error}</p><button className="btn btn-outline" onClick={()=>setAttempt(x=>x+1)}>{say('Retry','إعادة المحاولة')}</button></div>:loading?<div className="im-loading" role="status">{say('Loading the catalogue…','جارٍ تحميل الكتالوج…')}</div>:sorted.length?<div className="product-card-grid" data-testid="shop-grid">{sorted.map(p=><ProductCard key={p.id} product={p} onAdd={e=>{e.preventDefault();openQuick(p)}}/>)}</div>:<section className="v2-empty"><h2>{say('No matching products','لا توجد منتجات مطابقة')}</h2><p>{say('Try fewer filters, or ask our team to identify the exact item.','جرّب تقليل التصفية أو اطلب من فريقنا تحديد الصنف المناسب.')}</p><button className="btn btn-outline" onClick={clear}>{say('Reset catalogue','إعادة عرض الكتالوج')}</button><Link className="btn btn-primary" to="/bulk-quote">{say('Ask for assistance','اطلب المساعدة')}</Link></section>}</section></div></div>;
+}

@@ -1,0 +1,1 @@
+const Base=require('../MediaProvider');class Mock extends Base{async upload(buffer,id){return {url:'https://media.example.invalid/'+id+'.webp',public_id:id}}async delete(){return {deleted:true}}}module.exports=Mock;

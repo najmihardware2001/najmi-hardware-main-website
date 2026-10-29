@@ -1,0 +1,16 @@
+{
+  "checkout": "إتمام الطلب",
+  "proceedToCheckout": "المتابعة لإتمام الطلب",
+  "orderSummary": "ملخص الطلب",
+  "subtotal": "المجموع الفرعي",
+  "delivery": "التوصيل",
+  "total": "الإجمالي",
+  "deliveryAddress": "عنوان التوصيل",
+  "paymentMethod": "طريقة الدفع",
+  "placeOrder": "تأكيد الطلب",
+  "orderConfirmed": "تم تأكيد الطلب",
+  "orderNumber": "رقم الطلب",
+  "thankYou": "شكراً لتسوقك معنا!",
+  "continueShopping": "متابعة التسوق",
+  "emptyCart": "سلة التسوق فارغة"
+}

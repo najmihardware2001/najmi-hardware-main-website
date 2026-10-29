@@ -1,0 +1,22 @@
+{
+  "productSpecifications": "مواصفات المنتج",
+  "diameter": "القطر",
+  "length": "الطول",
+  "color": "اللون",
+  "quantity": "الكمية",
+  "roll": "لفة",
+  "pricePerRoll": "السعر لكل لفة",
+  "material": "المادة",
+  "construction": "الهيكل",
+  "applications": "الاستخدامات",
+  "brand": "العلامة التجارية",
+  "origin": "المنشأ",
+  "sku": "رمز المنتج",
+  "description": "الوصف",
+  "relatedProducts": "منتجات ذات صلة",
+  "selectVariant": "اختر المقاس",
+  "shopByCategory": "تسوّق حسب الفئة",
+  "ropeFinder": "البحث عن الحبال",
+  "filters": "تصفية",
+  "clearFilters": "مسح التصفية"
+}

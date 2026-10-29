@@ -1,0 +1,13 @@
+{
+  "wholesaleInquiry": "استفسار بالجملة",
+  "bulkOrder": "طلب كميات كبيرة",
+  "requestAQuotation": "طلب عرض سعر",
+  "companyName": "اسم الشركة",
+  "contactName": "اسم جهة الاتصال",
+  "email": "البريد الإلكتروني",
+  "phone": "رقم الهاتف",
+  "notes": "ملاحظات إضافية",
+  "submitRfq": "إرسال طلب عرض السعر",
+  "rfqSubmitted": "تم إرسال طلب عرض السعر بنجاح",
+  "emptyRfq": "سلة عروض الأسعار فارغة"
+}

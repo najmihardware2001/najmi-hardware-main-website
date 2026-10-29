@@ -1,0 +1,1 @@
+class PaymentProvider {async createPayment(){throw Error('Adapter must implement createPayment')}async getPaymentStatus(){throw Error('Adapter must implement getPaymentStatus')}verifyWebhook(){return false}async refund(){throw Error('Adapter must implement refund')}async healthCheck(){return {configured:false}}}module.exports=PaymentProvider;

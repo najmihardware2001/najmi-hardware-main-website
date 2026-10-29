@@ -1,0 +1,11 @@
+{
+  "adminPanel": "لوحة الإدارة",
+  "dashboard": "لوحة القيادة",
+  "manageProducts": "إدارة المنتجات",
+  "manageOrders": "إدارة الطلبات",
+  "manageRfqs": "إدارة عروض الأسعار",
+  "manageCustomers": "العملاء",
+  "settings": "الإعدادات",
+  "totalRevenue": "إجمالي الإيرادات",
+  "recentOrders": "أحدث الطلبات"
+}
