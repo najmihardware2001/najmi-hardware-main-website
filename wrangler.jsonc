@@ -4,6 +4,10 @@
   "main": "cloudflare/worker.mjs",
   "compatibility_date": "2026-10-30",
   "workers_dev": true,
+  "routes": [
+    {"pattern": "najmihardware.com/*", "zone_name": "najmihardware.com"},
+    {"pattern": "www.najmihardware.com/*", "zone_name": "najmihardware.com"}
+  ],
   "assets": {
     "directory": "./frontend/dist",
     "binding": "ASSETS",

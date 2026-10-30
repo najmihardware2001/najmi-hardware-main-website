@@ -21,6 +21,7 @@ export default {
    return new Response(request.method==='HEAD'?null:response.body,{status:response.status,headers});
   };
   try{
+   if(url.hostname==='najmihardware.com'&&url.protocol==='http:'){url.protocol='https:';return secure(Response.redirect(url.href,301))}
    if(url.hostname==='www.najmihardware.com'){url.hostname='najmihardware.com';url.protocol='https:';return secure(Response.redirect(url.href,301))}
    if(url.pathname==='/api'||url.pathname.startsWith('/api/')){
     const body=request.method==='POST'?await jsonBody(request):{};

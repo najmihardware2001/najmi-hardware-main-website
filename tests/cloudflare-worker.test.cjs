@@ -37,6 +37,7 @@ test('Cloudflare Worker serves initial English/Arabic SEO HTML and refreshable c
  assert.equal((await request('/made-up-page')).status,404);assert.equal((await request('/en/product/999999')).status,404);
 });
 test('Cloudflare Worker avoids hostname duplication and keeps temporary URLs out of Google',async()=>{
+ const http=await (await worker()).fetch(new Request('http://najmihardware.com/en/shop?q=rope'),{ASSETS:assets(),INDEXING_ENABLED:'true'});assert.equal(http.status,301);assert.equal(http.headers.get('location'),'https://najmihardware.com/en/shop?q=rope');
  const redirect=await request('/en/product/7849?q=a',{host:'www.najmihardware.com'});assert.equal(redirect.status,301);assert.equal(redirect.headers.get('location'),'https://najmihardware.com/en/product/7849?q=a');
  const slash=await request('/en');assert.equal(slash.status,301);assert.equal(slash.headers.get('location'),'https://najmihardware.com/en/');
  const preview=await request('/en/shop',{host:'najmi-hardware-main-website.najmihardware2001.workers.dev'});assert.equal(preview.headers.get('x-robots-tag'),'noindex, nofollow');
