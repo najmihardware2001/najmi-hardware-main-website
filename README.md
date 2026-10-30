@@ -3,6 +3,8 @@
 Industrial Minimal storefront for **Najmi Hardware, Kuwait, established 2001**.
 Primary domain: **https://najmihardware.com**. Arabic is at `/`; English is at `/en/`.
 
+**Direct Cloudflare Workers deployment:** use **`npm run build:cloudflare`**, then **`npx wrangler deploy`**, from the repository root. Root `wrangler.jsonc` includes the catalogue API as well as static pages. See [docs/CLOUDFLARE.md](docs/CLOUDFLARE.md) for the existing Worker project's build settings and custom-domain connection.
+
 **Aiven Runtime deployment is supported:** select root **`compose.aiven.yaml`** in the GitHub deployment wizard. See [docs/AIVEN.md](docs/AIVEN.md) for the scan/deploy steps, custom domain setup and indexing switch. The existing Netlify configuration remains available as an alternative.
 
 ## What this first Netlify deployment runs

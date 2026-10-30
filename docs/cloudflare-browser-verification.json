@@ -1,0 +1,107 @@
+{
+  "date": "2026-10-30",
+  "checks": [
+    {
+      "name": "English product has correct route and language",
+      "pass": true
+    },
+    {
+      "name": "Black option changes the corrected hero image",
+      "pass": true
+    },
+    {
+      "name": "Colour picker stays open after selection",
+      "pass": true
+    },
+    {
+      "name": "Quote basket retains both colour specifications",
+      "pass": true
+    },
+    {
+      "name": "WhatsApp targets owner",
+      "pass": true
+    },
+    {
+      "name": "WhatsApp has numbered item blocks and blank lines",
+      "pass": true
+    },
+    {
+      "name": "WhatsApp text is encoded once with actual line breaks",
+      "pass": true
+    },
+    {
+      "name": "Quote page is noindex",
+      "pass": true
+    },
+    {
+      "name": "Language switch keeps current route and basket",
+      "pass": true
+    },
+    {
+      "name": "Arabic WhatsApp is also spaced and itemized",
+      "pass": true
+    },
+    {
+      "name": "Arabic shop no horizontal overflow at 390",
+      "pass": true
+    },
+    {
+      "name": "Arabic shop contains all 58 cards",
+      "pass": true
+    },
+    {
+      "name": "Arabic mobile has two cards per row",
+      "pass": true
+    },
+    {
+      "name": "/en shop no horizontal overflow at 390",
+      "pass": true
+    },
+    {
+      "name": "/en shop contains all 58 cards",
+      "pass": true
+    },
+    {
+      "name": "/en mobile has two cards per row",
+      "pass": true
+    },
+    {
+      "name": "Arabic shop no horizontal overflow at 1440",
+      "pass": true
+    },
+    {
+      "name": "Arabic shop contains all 58 cards",
+      "pass": true
+    },
+    {
+      "name": "/en shop no horizontal overflow at 1440",
+      "pass": true
+    },
+    {
+      "name": "/en shop contains all 58 cards",
+      "pass": true
+    },
+    {
+      "name": "Polybag product and gallery load",
+      "pass": true
+    },
+    {
+      "name": "Mobile product has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "Runtime metadata keeps canonical and language alternates",
+      "pass": true
+    },
+    {
+      "name": "Runtime Product and Breadcrumb JSON-LD valid",
+      "pass": true
+    },
+    {
+      "name": "No JavaScript page errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "runtime": "Cloudflare local workerd"
+}

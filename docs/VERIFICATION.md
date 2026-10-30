@@ -17,3 +17,9 @@ The deployable source is the root of this repository. The previous local develop
 Root `compose.aiven.yaml` and the multi-stage `Dockerfile` build the same frontend and public-catalogue API into a non-root Node container on port 8080. The YAML was parsed and validated locally. Four additional test groups validate actual HTTP requests to the container's Node entry point, preview indexing controls, production caching/private routes/404s, and the manifest's single-app configuration. All **10** current automated test groups pass.
 
 No Docker engine is installed in this environment; the full Linux container image has not been built or run here. Aiven's remote build is still required. No Aiven application, paid plan, database or Cloudflare change was created by this update.
+
+## Cloudflare Workers adaptation — 30 October 2026
+
+The existing static-only Worker returned 404 for `/en/shop`, `/api/health` and `/api/products`. Added a native Worker script, public catalogue API and Wrangler configuration for the same project name. All **14** automated test groups pass. A Wrangler dry-run bundle passed (about 105 KiB gzip), and the actual local workerd runtime served the English/Arabic HTML routes, all 58 catalogue products, configuration POSTs, cart refresh routes and real 404s. All **25** headed browser checks also passed against the local Cloudflare runtime, including colour-image updates, the persistent picker, spaced bilingual WhatsApp requests and mobile layouts.
+
+Deployment and custom-domain activation are separate from these local checks. Follow `docs/CLOUDFLARE.md`; the repository contains no account API token or hard-coded DNS binding.
