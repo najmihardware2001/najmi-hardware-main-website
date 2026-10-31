@@ -242,7 +242,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   currency: 'KWD',
   phone: '+965 24827860',
   mobile: '+965 99652718',
-  email: 'sales@najmihardware.net',
+  email: 'sales@najmihardware.com',
   address: 'Shop No. 12, Al-Juwan Commercial Complex, Khalifa Al-Jassem St, Shuwaikh, Kuwait',
   addressAr: 'محل رقم ١٢، مجمع الجوعان التجاري، شارع خليفة الجاسم، الشويخ، الكويت',
   crNumber: '81741',
@@ -284,7 +284,7 @@ export function loadStore(): StoreState {
       if (!Array.isArray(parsed.products)) parsed.products = [];
 
       // Merge with defaults to handle any new fields
-      return { ...defaultState, ...parsed };
+      return { ...defaultState, ...parsed, settings: { ...DEFAULT_SETTINGS, ...parsed.settings, email: parsed.settings?.email === 'sales@najmihardware.net' ? DEFAULT_SETTINGS.email : (parsed.settings?.email || DEFAULT_SETTINGS.email) } };
     }
   } catch (e) {
     console.warn('Failed to load store from localStorage:', e);

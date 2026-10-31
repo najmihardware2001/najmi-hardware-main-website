@@ -28,7 +28,7 @@ export function applySeo(input: {path:string; title:string; description:string; 
 export const businessSchema={
   '@context':'https://schema.org','@type':'HardwareStore','@id':SITE_URL+'/#business',
   name:'Najmi Hardware',alternateName:['NAJMI HARDWARE EST.','مؤسسة النجم للمعدات'],url:SITE_URL+'/',
-  foundingDate:'2001',telephone:'+96599652718',logo:SITE_URL+'/favicon.png',image:SITE_URL+'/images/branding/najmi-social.jpg',
+  foundingDate:'2001',email:['sales@najmihardware.com','info@najmihardware.com','yusuf@najmihardware.com'],telephone:'+96599652718',logo:SITE_URL+'/favicon.png',image:SITE_URL+'/images/branding/najmi-social.jpg',
   address:{'@type':'PostalAddress',addressLocality:'Shuwaikh',addressCountry:'KW'},
   areaServed:{'@type':'Country',name:'Kuwait'},sameAs:['https://www.najmihardware.net/','https://share.google/gRD2drGbOUItmFHs6']
 };

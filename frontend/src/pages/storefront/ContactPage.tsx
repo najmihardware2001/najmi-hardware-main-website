@@ -4,6 +4,7 @@ import LocationMap from '../../components/LocationMap';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import BusinessContacts from '../../components/BusinessContacts';
+import { BUSINESS_EMAILS } from '../../services/businessContacts';
 
 export default function ContactPage() {
   const copy = useStorefrontCopy();
@@ -43,7 +44,7 @@ export default function ContactPage() {
               <span className="material-symbols-outlined" style={{ color: '#e31837', fontSize: 32 }}>mail</span>
               <div style={{ textAlign: 'start', minWidth: 0, overflowWrap: 'anywhere' }}>
                 <p style={{ fontWeight: 700, color: 'var(--on-surface)', marginBottom: 4 }}>{copy("Email Us")}</p>
-                <a dir="ltr" href={`mailto:${state.settings.email}${product ? `?subject=${encodeURIComponent('Quotation enquiry: '+product)}` : ''}`} style={{ color: '#0b3d91', textDecoration: 'none', fontWeight: 600 }}>{state.settings.email}</a>
+                {BUSINESS_EMAILS.map(email => <a key={email} dir="ltr" href={`mailto:${email}${product ? `?subject=${encodeURIComponent('Quotation enquiry: '+product)}` : ''}`} style={{ display: 'block', marginTop: 8, color: '#0b3d91', textDecoration: 'none', fontWeight: 600 }}>{email}</a>)}
               </div>
             </div>
             

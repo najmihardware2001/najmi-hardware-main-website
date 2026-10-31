@@ -1,5 +1,7 @@
 import { colourLabel, measurementLabel, unitLabel } from '../i18n/catalogueLabels';
 
+export const BUSINESS_EMAILS = ['sales@najmihardware.com', 'info@najmihardware.com', 'yusuf@najmihardware.com'] as const;
+
 // Owner-supplied business contacts. WhatsApp quotation enquiries go to Najmuddin.
 export const BUSINESS_CONTACTS = {
   owner: { name: 'Najmuddin', nameAr: 'نجم الدين', role: 'Owner', roleAr: 'المالك', phone: '+96599652718', displayPhone: '+965 9965 2718' },

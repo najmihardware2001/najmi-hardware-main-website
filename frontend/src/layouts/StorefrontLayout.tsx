@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '../StoreContext';
 import { getCartItemCount, getRfqItemCount } from '../store';
 import BusinessContacts from '../components/BusinessContacts';
-import { BUSINESS_CONTACTS, generalQuoteUrl } from '../services/businessContacts';
+import { BUSINESS_CONTACTS, BUSINESS_EMAILS, generalQuoteUrl } from '../services/businessContacts';
 import CatalogueSearch from '../components/CatalogueSearch';
 import RouteMetadata from '../components/RouteMetadata';
 import RouteScrollReset from '../components/RouteScrollReset';
@@ -157,7 +157,7 @@ export default function StorefrontLayout() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <span style={{ color: 'var(--on-primary-container)', display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined icon-sm">call</span> <bdi dir="ltr">{BUSINESS_CONTACTS.owner.displayPhone}</bdi></span>
               <div style={{ color: 'var(--on-primary-container)' }}><BusinessContacts /></div>
-              <span style={{ color: 'var(--on-primary-container)', display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined icon-sm">mail</span> <bdi dir="ltr">{state.settings.email}</bdi></span>
+              {BUSINESS_EMAILS.map(email => <a key={email} href={'mailto:'+email} style={{ color: 'var(--on-primary-container)', display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}><span className="material-symbols-outlined icon-sm" aria-hidden="true">mail</span><bdi dir="ltr">{email}</bdi></a>)}
             </div>
           </div>
         </div>
