@@ -1,4 +1,5 @@
 import {api,type ApiProductTemplate} from './api';
+import {getInitialCatalogue} from './initialCatalogue';
 import {colourLabel,unitLabel} from '../i18n/catalogueLabels';
 
 export const normalize=(value:string)=>value.normalize('NFKD').replace(/[\u0300-\u036f\u064b-\u065f\u0670]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
@@ -37,7 +38,7 @@ export function searchScore(p:ApiProductTemplate,query:string){
 }
 let catalogue:Promise<ApiProductTemplate[]>|undefined;
 // Shared five-minute public cache; failures do not poison subsequent retries.
-export function loadCatalogue(){if(!catalogue){catalogue=api.getStorefrontProducts({take:100}).then(r=>{setTimeout(()=>{catalogue=undefined},300000);return r.items}).catch(e=>{catalogue=undefined;throw e})}return catalogue;}
+export function loadCatalogue(){const initial=getInitialCatalogue().products;if(initial.length)return Promise.resolve(initial);if(!catalogue){catalogue=api.getStorefrontProducts({take:100}).then(r=>{setTimeout(()=>{catalogue=undefined},300000);return r.items}).catch(e=>{catalogue=undefined;throw e})}return catalogue;}
 export const productName=(p:ApiProductTemplate,ar:boolean)=>ar?(p.nameAr||p.name):p.name;
 export const reference=(p:ApiProductTemplate)=>p.metadata?.parentReference||p.code;
 export function readIds(key:string):string[]{try{const data=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(data)?data.filter((v:unknown)=>typeof v==='string').slice(0,30):[]}catch{return []}}

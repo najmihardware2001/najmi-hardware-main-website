@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),dist=path.join(root,'frontend/dist'),data=require('../catalogue/public-catalogue.json');
 test('complete catalogue, corrected photos and media are included',()=>{
- assert.equal(data.products.length,58);assert.equal(Object.values(data.configurations).reduce((n,c)=>n+c.specifications.length,0),388);
+ assert.equal(data.products.length,58);assert.equal(Object.values(data.configurations).reduce((n,c)=>n+c.specifications.length,0),398);
  const media=new Set();function scan(v){if(typeof v==='string'&&v.startsWith('/uploads/'))media.add(v);else if(Array.isArray(v))v.forEach(scan);else if(v&&typeof v==='object')Object.values(v).forEach(scan)}scan(data);
  for(const url of media)assert.ok(fs.existsSync(path.join(dist,url)),url);
  const photos=JSON.stringify(data.configurations[7849]);assert.ok(photos.includes('black-upright'));assert.ok(photos.includes('white-upright'));
@@ -11,7 +11,7 @@ test('all product HTML has unique metadata, product content, reciprocal language
  const titles=new Set();
  for(const p of data.products)for(const base of ['','en']){
   const html=fs.readFileSync(path.join(dist,base,'product',String(p.id),'index.html'),'utf8');
-  assert.ok(html.includes('<h1>'));assert.ok(html.includes(base?p.name_en:p.name_ar));
+  assert.ok(/<h1[\s>]/.test(html));assert.ok(html.includes(base?p.name_en:p.name_ar));
   const title=html.match(/<title>(.*?)<\/title>/)[1];assert.ok(!titles.has(title),'Duplicate title '+title);titles.add(title);
   assert.equal((html.match(/rel="canonical"/g)||[]).length,1);assert.ok(html.includes('https://najmihardware.com/'+(base?'en/':'')+'product/'+p.id));
   assert.ok(html.includes('hreflang="ar-KW"'));assert.ok(html.includes('hreflang="en-KW"'));
@@ -22,7 +22,7 @@ test('all product HTML has unique metadata, product content, reciprocal language
 });
 test('sitemaps cover every language and product and exclude private routes',()=>{
  const pages=fs.readFileSync(path.join(dist,'sitemap-pages.xml'),'utf8'),products=fs.readFileSync(path.join(dist,'sitemap-products.xml'),'utf8');
- assert.equal((pages.match(/<url>/g)||[]).length,20);assert.equal((products.match(/<url>/g)||[]).length,116);
+ assert.equal((pages.match(/<url>/g)||[]).length,42);assert.equal((products.match(/<url>/g)||[]).length,116);
  for(const p of data.products)for(const prefix of ['','en/'])assert.ok(products.includes('<loc>https://najmihardware.com/'+prefix+'product/'+p.id+'</loc>'));
  assert.ok(!/\/(cart|admin|account|checkout|rfq-basket|quote|compare)[/<]/.test(pages+products));
  assert.ok(!products.includes('localhost'));assert.ok(!products.includes('#/'));assert.ok(fs.readFileSync(path.join(dist,'robots.txt'),'utf8').includes('Sitemap: https://najmihardware.com/sitemap.xml'));

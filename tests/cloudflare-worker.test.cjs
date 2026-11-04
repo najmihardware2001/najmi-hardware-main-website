@@ -30,7 +30,7 @@ test('Cloudflare Worker resolves actual size/length/colour options and gates pri
 });
 test('Cloudflare Worker serves initial English/Arabic SEO HTML and refreshable cart routes',async()=>{
  for(const route of ['/','/en/','/shop','/en/shop','/product/7849','/en/product/7849']){
-  const response=await request(route);assert.equal(response.status,200,route);const html=await response.text();assert.ok(html.includes('najmihardware.com'));assert.ok(html.includes('rel="canonical"'));assert.ok(html.includes('<h1>'));assert.equal(response.headers.get('x-robots-tag'),null);
+  const response=await request(route);assert.equal(response.status,200,route);const html=await response.text();assert.ok(html.includes('najmihardware.com'));assert.ok(html.includes('rel="canonical"'));assert.ok(/<h1[\s>]/.test(html));assert.equal(response.headers.get('x-robots-tag'),null);
  }
  const head=await request('/en/product/7849',{method:'HEAD'});assert.equal(head.status,200);assert.equal(await head.text(),'');
  for(const route of ['/cart','/en/cart','/rfq-basket','/en/admin/products']){const r=await request(route);assert.equal(r.status,200);assert.equal(r.headers.get('x-robots-tag'),'noindex, follow');assert.ok((await r.text()).includes('noindex'))}

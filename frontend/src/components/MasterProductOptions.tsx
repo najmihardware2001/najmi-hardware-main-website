@@ -8,14 +8,15 @@ import { colourLabel, measurementLabel, unitLabel } from '../i18n/catalogueLabel
 import { Link } from 'react-router-dom';
 import { quoteItem } from '../services/quoteBasket';
 import ColourPicker from './ColourPicker';
+import {getInitialCatalogue} from '../services/initialCatalogue';
 type Spec={id?:number;measurement_type:string;measurements:any;review_status?:string};
 const key=(v:any,u:any)=>v==null?'':`${Number(v)}|${u}`;
 export default function MasterProductOptions({product,onImage,compact=false,editing,onAdded,forceQuote=false}:{product:ApiProductTemplate;onImage:(url:string|null,generated?:boolean,colour?:string)=>void;compact?:boolean;editing?:RfqItem;onAdded?:()=>void;forceQuote?:boolean}){
  const {saveSelection}=useDiscovery();
  const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',{dispatch,showToast}=useStore();
- const [base,setBase]=useState<any>(null),[resolved,setResolved]=useState<any>(null),[size,setSize]=useState(''),[length,setLength]=useState(''),[colour,setColour]=useState(''),[quantity,setQuantity]=useState(1),[error,setError]=useState('');
+ const [base,setBase]=useState<any>(()=>String(getInitialCatalogue().configuration?.parent_id)===product.id?getInitialCatalogue().configuration:null),[resolved,setResolved]=useState<any>(null),[size,setSize]=useState(''),[length,setLength]=useState(''),[colour,setColour]=useState(''),[quantity,setQuantity]=useState(1),[error,setError]=useState('');
  const [availableColours,setAvailableColours]=useState<string[]>([]),[requestedUnit,setRequestedUnit]=useState(editing?.unit||'');
- useEffect(()=>{let active=true;setSize('');setLength('');setColour('');setAvailableColours([]);setBase(null);setResolved(null);onImage(null);api.catalogue(`/products/${product.id}/configuration`).then(d=>{if(active){setBase(d);if(editing){const m=editing.measurements||{};setSize(key(m.size_value,m.size_unit));setLength(key(m.length_value,m.length_unit));setColour(editing.colour||'');setQuantity(editing.quantity)}}}).catch(e=>setError(e.message));return()=>{active=false}},[product.id]);
+ useEffect(()=>{let active=true;setSize('');setLength('');setColour('');setAvailableColours([]);setBase(null);setResolved(null);onImage(null);const seeded=getInitialCatalogue().configuration;if(!editing&&String(seeded?.parent_id)===product.id){setBase(seeded);return()=>{active=false}}api.catalogue(`/products/${product.id}/configuration`).then(d=>{if(active){setBase(d);if(editing){const m=editing.measurements||{};setSize(key(m.size_value,m.size_unit));setLength(key(m.length_value,m.length_unit));setColour(editing.colour||'');setQuantity(editing.quantity)}}}).catch(e=>setError(e.message));return()=>{active=false}},[product.id]);
  const specs:Spec[]=useMemo(()=>base?.specifications?.length?base.specifications:(base?.rows||[]).map((r:any)=>({measurement_type:'diameter',measurements:r})),[base]);
  const type=specs[0]?.measurement_type||'enquiry',sizes=[...new Set(specs.map(s=>key(s.measurements.size_value,s.measurements.size_unit)).filter(Boolean))].sort((a,b)=>parseFloat(a)-parseFloat(b));
  const group=specs.filter(s=>!sizes.length||key(s.measurements.size_value,s.measurements.size_unit)===size),lengths=[...new Set(group.map(s=>key(s.measurements.length_value,s.measurements.length_unit)).filter(Boolean))].sort((a,b)=>parseFloat(a)-parseFloat(b));

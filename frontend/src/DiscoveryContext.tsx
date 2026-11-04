@@ -1,7 +1,8 @@
-import {createContext,lazy,Suspense,useContext,useState,type ReactNode} from 'react';
+import {createContext,lazy,Suspense,useContext,useEffect,useState,type ReactNode} from 'react';
 import {Link} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import type {RfqItem} from './store';
+import {hasPrerender} from './services/initialCatalogue';
 import type {ApiProductTemplate} from './services/api';
 import {readIds,writeLocal} from './services/catalogueDiscovery';
 const QuickView=lazy(()=>import('./components/ProductQuickView'));
@@ -9,9 +10,10 @@ type Discovery={selections:RfqItem[];saveSelection:(item:RfqItem)=>void;removeSe
 const Context=createContext<Discovery>(null!);
 export const useDiscovery=()=>useContext(Context);
 export function DiscoveryProvider({children}:{children:ReactNode}){
- const [selections,setSelections]=useState<RfqItem[]>(()=>{try{const saved=JSON.parse(localStorage.getItem('najmi.saved-selections')||'[]');return Array.isArray(saved)?saved.filter(i=>typeof i?.productId==='string'&&Number.isFinite(i?.quantity)&&i.quantity>0).slice(0,30):[]}catch{return []}});
+ const [selections,setSelections]=useState<RfqItem[]>(()=>{if(hasPrerender())return [];try{const saved=JSON.parse(localStorage.getItem('najmi.saved-selections')||'[]');return Array.isArray(saved)?saved.filter(i=>typeof i?.productId==='string'&&Number.isFinite(i?.quantity)&&i.quantity>0).slice(0,30):[]}catch{return []}});
  const {i18n}=useTranslation(),ar=i18n.language==='ar-KW';
- const [compare,setCompare]=useState(()=>readIds('najmi.compare').slice(0,3)),[saved,setSaved]=useState(()=>readIds('najmi.saved')),[recent,setRecent]=useState(()=>readIds('najmi.recent')),[quick,setQuick]=useState<{product:ApiProductTemplate;editing?:RfqItem;forceQuote?:boolean}|null>(null),[notice,setNotice]=useState('');
+ const [compare,setCompare]=useState(()=>hasPrerender()?[]:readIds('najmi.compare').slice(0,3)),[saved,setSaved]=useState(()=>hasPrerender()?[]:readIds('najmi.saved')),[recent,setRecent]=useState(()=>hasPrerender()?[]:readIds('najmi.recent')),[quick,setQuick]=useState<{product:ApiProductTemplate;editing?:RfqItem;forceQuote?:boolean}|null>(null),[notice,setNotice]=useState('');
+ useEffect(()=>{if(!hasPrerender())return;setCompare(readIds('najmi.compare').slice(0,3));setSaved(readIds('najmi.saved'));setRecent(readIds('najmi.recent'));try{const stored=JSON.parse(localStorage.getItem('najmi.saved-selections')||'[]');if(Array.isArray(stored))setSelections(stored.filter(i=>typeof i?.productId==='string'&&Number.isFinite(i.quantity)&&i.quantity>0).slice(0,30))}catch{}},[]);
  const toggleCompare=(id:string)=>setCompare(old=>{if(!old.includes(id)&&old.length>=3){setNotice(ar?'يمكن مقارنة ثلاثة منتجات كحد أقصى.':'Compare up to three products. Remove one to add another.');return old}const next=old.includes(id)?old.filter(x=>x!==id):[...old,id];writeLocal('najmi.compare',next);setNotice('');return next});
  const toggleSaved=(id:string)=>setSaved(old=>{const next=old.includes(id)?old.filter(x=>x!==id):[id,...old].slice(0,30);writeLocal('najmi.saved',next);return next});
  const visit=(id:string)=>setRecent(old=>{const next=[id,...old.filter(x=>x!==id)].slice(0,12);writeLocal('najmi.recent',next);return next});

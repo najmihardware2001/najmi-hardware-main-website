@@ -2,7 +2,7 @@ import embedded from './embeddedProductBranding.json';
 
 export type BrandPlacement={position:string;x:number;y:number;width:number;foreground:number};
 export function hasEmbeddedBranding(src:string|undefined){
- let key='';try{key=new URL(src||'',window.location.href).pathname.replace(/^\/catalogue\//,'/')}catch{return false}
+ let key='';try{key=new URL(src||'','https://najmihardware.com/').pathname.replace(/^\/catalogue\//,'/')}catch{return false}
  return (embedded as string[]).includes(key.replace(/-(?:card|thumb)(?=\.[^.]+$)/,''));
 }
 export function brandPlacementFor(src:string|undefined):BrandPlacement{

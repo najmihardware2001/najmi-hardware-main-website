@@ -10,15 +10,17 @@
     "build:cloudflare": "npm run build",
     "dev:cloudflare": "wrangler dev --port 8787",
     "deploy:cloudflare": "wrangler deploy",
-    "build": "npm ci --prefix frontend && npm run build --prefix frontend && node scripts/build-seo.mjs",
+    "build": "npm ci --prefix frontend && node scripts/optimize-media.mjs && npm run build --prefix frontend && node scripts/build-seo.mjs",
     "test": "node --test tests/*.test.cjs",
     "dev": "node scripts/local-server.cjs"
   },
   "dependencies": {
+    "compression": "1.8.2",
     "express": "5.2.1",
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
+    "sharp": "0.35.5",
     "wrangler": "4.156.0"
   }
 }

@@ -6,7 +6,8 @@ import AdminLayout from './layouts/AdminLayout';
 const FinderPage=lazy(()=>import('./pages/storefront/FinderPage'));
 const ComparePage=lazy(()=>import('./pages/storefront/ComparePage'));
 const BulkQuotePage=lazy(()=>import('./pages/storefront/BulkQuotePage'));
-const HomePage = lazy(() => import('./pages/storefront/HomePage'));
+import HomePage from './pages/storefront/HomePage';
+const GuidePage=lazy(()=>import('./pages/storefront/GuidePage'));
 const ShopPage = lazy(() => import('./pages/storefront/ShopPage'));
 const ProductPage = lazy(() => import('./pages/storefront/ProductPage'));
 const CartPage = lazy(() => import('./pages/storefront/CartPage'));
@@ -49,6 +50,8 @@ function App() {
       <Route element={<StorefrontLayout />}>
         <Route path="/" element={page(HomePage)} />
         <Route path="/shop" element={page(ShopPage)} />
+        <Route path="/collections/:collectionSlug" element={page(ShopPage)} />
+        <Route path="/guides/:guideSlug" element={page(GuidePage)} />
         <Route path="/find" element={page(FinderPage)} />
         <Route path="/compare" element={page(ComparePage)} />
         <Route path="/bulk-quote" element={page(BulkQuotePage)} />

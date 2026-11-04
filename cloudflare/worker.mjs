@@ -1,7 +1,8 @@
 import data from '../catalogue/public-catalogue.json' with {type:'json'};
 import {createCatalogueHandler} from './catalogue.mjs';
+import searchPages from '../frontend/src/content/search-pages.json' with {type:'json'};
 const catalogue=createCatalogueHandler(data);
-const publicPages=new Set(['/','/shop','/about','/contact','/brands/star-rope','/manufacturing','/industries','/wholesale','/bulk-quote','/find',...data.products.map(p=>'/product/'+p.id)]);
+const publicPages=new Set(['/','/shop','/about','/contact','/brands/star-rope','/manufacturing','/industries','/wholesale','/bulk-quote','/find',...data.products.map(p=>'/product/'+p.id),...searchPages.collections.map(c=>'/collections/'+c.slug),...searchPages.guides.map(g=>'/guides/'+g.slug)]);
 const appPage=path=>/^\/(cart|checkout|account|compare|rfq-basket|admin|quote|order-confirmation)(\/|$)/.test(path)||path.startsWith('/shop/');
 async function jsonBody(request){
  if(Number(request.headers.get('content-length')||0)>65536)throw Object.assign(Error('Request is too large'),{status:413});
@@ -39,7 +40,7 @@ export default {
      const target=new URL(url);target.pathname=prefix+(path==='/'?'':path)+'/index.html';
      const response=await env.ASSETS.fetch(new Request(target,{method:request.method,headers:request.headers}));
      const headers=new Headers(response.headers);headers.set('Cache-Control','public, max-age=0, must-revalidate');
-     if(path==='/shop'&&url.search)headers.set('X-Robots-Tag','noindex, follow');
+     if((path==='/shop'||path.startsWith('/collections/'))&&url.search)headers.set('X-Robots-Tag','noindex, follow');
      return secure(new Response(response.body,{status:response.status,headers}));
     }
     if(interactive){

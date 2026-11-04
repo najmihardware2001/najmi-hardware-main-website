@@ -1,6 +1,6 @@
 // Arabic is the default storefront; English has a stable /en URL.
 export const SITE_URL = 'https://najmihardware.com';
-export const LANGUAGE_BASE = /^\/en(?:\/|$)/.test(location.pathname) ? '/en' : '';
+export const LANGUAGE_BASE = /^\/en(?:\/|$)/.test(typeof location==='undefined'?'':location.pathname) ? '/en' : '';
 export function productSeoTitle(title:string|undefined,ar:boolean){
   const value=title||(ar?'نجمي هاردوير الكويت':'Najmi Hardware Kuwait');
   return /najmi hardware|نجمي/i.test(value)?value:value+(ar?' | نجمي هاردوير الكويت':' | Najmi Hardware Kuwait');

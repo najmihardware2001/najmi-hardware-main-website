@@ -11,6 +11,7 @@ import './responsive.css';
 import './catalogue-refresh.css';
 import './industrial-minimal.css';
 import './website-v2.css';
+import './search-pages.css';
 import './i18n';
 import i18n from './i18n';
 import {LANGUAGE_BASE} from './services/seo';
@@ -23,7 +24,8 @@ i18n.on('languageChanged',language=>{
   location.assign(base+path+location.search+location.hash);
 });
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const root=document.getElementById('root')!;
+const tree=(
   <React.StrictMode>
     <BrowserRouter basename={LANGUAGE_BASE||'/'}>
       <AuthProvider>
@@ -34,3 +36,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </React.StrictMode>
 );
+// Let the complete server-rendered page paint before attaching interactions.
+if(root.dataset.prerender==='true')requestAnimationFrame(()=>setTimeout(()=>ReactDOM.hydrateRoot(root,tree),0));else ReactDOM.createRoot(root).render(tree);

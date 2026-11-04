@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import {hasPrerender} from './services/initialCatalogue';
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import {
-  loadStore, saveStore, resetStore, generateId, getCartTotal
+  loadStore, saveStore, resetStore, generateId, getCartTotal, getDefaultState
 } from './store';
 import type {
   StoreState, CartItem, RfqItem, RetailOrder, RfqSubmission, Product, Customer, Banner, Category, SiteSettings
@@ -276,7 +277,8 @@ interface ToastState {
 // ── Provider ──
 export function StoreProvider({ children }: { children: ReactNode }) {
   const {i18n}=useTranslation();
-  const [state, dispatch] = useReducer(storeReducer, undefined, loadStore);
+  const [state, dispatch] = useReducer(storeReducer, undefined, ()=>hasPrerender()?getDefaultState():loadStore());
+  React.useEffect(()=>{if(hasPrerender())dispatch({type:'SET_STATE',payload:loadStore()})},[]);
   const [toast, setToast] = React.useState<ToastState>({ message: '', icon: 'check_circle', visible: false });
   const toastTimeoutRef = React.useRef<number | null>(null);
 

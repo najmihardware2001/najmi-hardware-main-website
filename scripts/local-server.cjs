@@ -1,5 +1,6 @@
 const path=require('node:path'),fs=require('node:fs'),express=require('express');
 const root=path.resolve(__dirname,'..'),dist=path.join(root,'frontend/dist'),app=express();
+app.use(require('compression')());
 app.use(require('../server/public-catalogue.cjs').createCatalogueApp(require('../catalogue/public-catalogue.json')));
 app.get(/.*/,(req,res,next)=>{
  const file=path.resolve(dist,'.'+decodeURIComponent(req.path),'index.html');

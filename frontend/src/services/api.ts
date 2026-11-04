@@ -232,6 +232,7 @@ class ApiService {
   private orderTokens: Record<string, string> = {};
 
   constructor() {
+    if(typeof localStorage==='undefined')return;
     this.token = localStorage.getItem('najmi_token') || localStorage.getItem('najmi_erp_token') || localStorage.getItem('najmi_express_token');
     try {
       const stored = localStorage.getItem('najmi_order_tokens');
@@ -1412,7 +1413,7 @@ class ApiService {
   }
 
   // ── Transformers ──
-  private transformProduct(p: any): ApiProductTemplate {
+  transformProduct(p: any): ApiProductTemplate {
     p=correctedProductImages(p);
     const rawCustom = p.custom_fields || {};
     const skuCount = p.variant_count != null ? Number(p.variant_count) : (rawCustom.variant_sku_count != null ? Number(rawCustom.variant_sku_count) : (p.variants ? p.variants.length : 0));

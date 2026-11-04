@@ -258,7 +258,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
 const STORAGE_KEY = 'najmi-demo-store';
 
 // ── Store Functions ──
-function getDefaultState(): StoreState {
+export function getDefaultState(): StoreState {
   return {
     products: DEFAULT_PRODUCTS,
     cart: [],
@@ -273,6 +273,7 @@ function getDefaultState(): StoreState {
 }
 
 export function loadStore(): StoreState {
+  if(typeof localStorage==='undefined')return getDefaultState();
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {

@@ -1,13 +1,14 @@
 import BrandedProductImage from './BrandedProductImage';
 import {useEffect,useState} from 'react';
+import {getInitialCatalogue} from '../services/initialCatalogue';
 import {useTranslation} from 'react-i18next';
 import {api} from '../services/api';
 import {measurementLabel,unitLabel,colourLabel} from '../i18n/catalogueLabels';
 export const visualRole=(role:string,ar:boolean)=>({HERO:ar?'الصورة الرئيسية':'Hero',MATERIAL_CLOSEUP:ar?'تفاصيل السطح':'Material / surface detail',APPLICATION:ar?'الاستخدام والتخزين':'Application / storage',SPECIFICATION_VISUAL:ar?'دليل المواصفات':'Specification visual',SELECTION_GUIDE:ar?'دليل الاختيار':'Selection guide',GALLERY:ar?'معرض الصور':'Gallery',COLOUR:ar?'اللون / النقشة':'Colour / pattern'} as Record<string,string>)[role]||role;
 type VisualData={assets:any[];specifications:any[]};
 export default function APlusVisuals({parentId,override,excludeUrls=[]}:{parentId:string;override?:VisualData;excludeUrls?:string[]}){
- const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',[data,setData]=useState<VisualData>({assets:[],specifications:[]});
- useEffect(()=>{if(override){setData(override);return}let active=true;setData({assets:[],specifications:[]});api.catalogue(`/products/${parentId}/visuals`).then(r=>{if(active)setData(r)}).catch(()=>{});return()=>{active=false}},[parentId,override]);
+ const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',[data,setData]=useState<VisualData>(()=>String(getInitialCatalogue().configuration?.parent_id)===parentId?getInitialCatalogue().visuals||{assets:[],specifications:[]}:{assets:[],specifications:[]});
+ useEffect(()=>{if(override){setData(override);return}if(String(getInitialCatalogue().configuration?.parent_id)===parentId&&getInitialCatalogue().visuals){setData(getInitialCatalogue().visuals);return}let active=true;setData({assets:[],specifications:[]});api.catalogue(`/products/${parentId}/visuals`).then(r=>{if(active)setData(r)}).catch(()=>{});return()=>{active=false}},[parentId,override]);
  const assets=data.assets.filter(a=>!excludeUrls.includes(a.url));
  const groups=new Map<string,{type:string;m:any;lengths:string[];unconfirmed:boolean}>();
  for(const s of data.specifications){const m=s.measurements,key=JSON.stringify([s.measurement_type,m.size_value,m.size_unit,m.sheet_dimensions,m.packaging]);if(!groups.has(key))groups.set(key,{type:s.measurement_type,m,lengths:[],unconfirmed:s.review_status?.includes('UNCONFIRMED')||s.review_status?.includes('HISTORICAL')});const row=groups.get(key)!;if(m.length_value!=null){const v=`${m.length_value} ${unitLabel(m.length_unit,ar)}`;if(!row.lengths.includes(v))row.lengths.push(v)}}

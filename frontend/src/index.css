@@ -1,4 +1,4 @@
-@font-face { font-family: 'Najmi Symbols'; src: url('/fonts/material-symbols-outlined.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: block; }
+@font-face { font-family: 'Najmi Symbols'; src: url('/fonts/material-symbols-outlined.woff2') format('woff2'); font-style: normal; font-weight: 400; font-display: swap; }
 /* ============================================================
    NAJMI HARDWARE — Design System CSS
    Faithfully preserving the Stitch export's premium visual design

@@ -5,6 +5,7 @@ const {createCatalogueApp}=require('./public-catalogue.cjs');
 function createSiteApp({dist=path.resolve(__dirname,'../frontend/dist'),data=require('../catalogue/public-catalogue.json'),indexingEnabled=false}={}){
  if(!fs.existsSync(path.join(dist,'index.html'))||!fs.existsSync(path.join(dist,'app.html')))throw Error('Build the storefront before starting the server.');
  const app=express();app.disable('x-powered-by');
+ app.use(require('compression')());
  app.use((req,res,next)=>{
   res.set({'X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Permissions-Policy':'camera=(), microphone=(), geolocation=()'});
   if(!indexingEnabled)res.set('X-Robots-Tag','noindex, nofollow');

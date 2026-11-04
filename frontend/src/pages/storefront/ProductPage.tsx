@@ -9,6 +9,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useStore } from '../../StoreContext';
 import { api, type ApiProductTemplate, type ApiProductVariant } from '../../services/api';
 import MasterProductOptions from '../../components/MasterProductOptions';
+import {getInitialCatalogue} from '../../services/initialCatalogue';
 import APlusProductContent from '../../components/APlusProductContent';
 import { colourLabel } from '../../i18n/catalogueLabels';
 
@@ -24,21 +25,22 @@ export default function ProductPage() {
   useEffect(()=>{if(id)visit(id)},[id]);
   const { dispatch, showToast } = useStore();
 
-  const [product, setProduct] = useState<ApiProductTemplate | null>(null);
-  const [loading, setLoading] = useState(()=>!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [product, setProduct] = useState<ApiProductTemplate | null>(()=>getInitialCatalogue().product?.id===id?getInitialCatalogue().product!:null);
+  const [loading, setLoading] = useState(()=>!getInitialCatalogue().product);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const [qty, setQty] = useState(1);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [colourImage, setColourImage] = useState<string|null>(null); const [colourImageGenerated,setColourImageGenerated]=useState<boolean|undefined>(undefined);
-  const [galleryPlaying,setGalleryPlaying]=useState(()=>!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [galleryPlaying,setGalleryPlaying]=useState(false);
 
 
   useEffect(() => {
     let isMounted = true;
     async function loadProduct() {
       if (!id) return;
+      if(getInitialCatalogue().product?.id===id){setProduct(getInitialCatalogue().product!);setLoading(false);return;}
       setLoading(true);
       setErrorMsg(null);
       try {
@@ -78,6 +80,7 @@ export default function ProductPage() {
     const priority:string[]=product?.metadata?.priorityGallery||[];
     return (product?.media||[]).filter(m=>{const url=m.webpUrl||m.originalUrl;if(!url||seen.has(url))return false;seen.add(url);return true}).sort((a,b)=>{const ai=priority.indexOf(a.webpUrl||a.originalUrl),bi=priority.indexOf(b.webpUrl||b.originalUrl);return (ai<0?9999:ai)-(bi<0?9999:bi)});
   },[product]);
+  useEffect(()=>{setGalleryPlaying(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)},[id]);
   useEffect(()=>{if(colourImage){const index=mediaList.findIndex(m=>(m.webpUrl||m.originalUrl)===colourImage);if(index>=0)setSelectedImageIndex(index)}},[colourImage,mediaList]);
   const selectedMedia = mediaList[selectedImageIndex] || mediaList[0];
   const displayMainImg = colourImage || selectedMedia?.webpUrl || selectedMedia?.originalUrl || product?.imageUrl;

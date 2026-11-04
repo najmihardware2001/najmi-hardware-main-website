@@ -1,3 +1,4 @@
+import searchPages from '../content/search-pages.json';
 // Editorial groups of existing public parent references, not new inventory categories.
 export const STORE_COLLECTIONS = {
  'star-rope': {en:'Ropes & cordage',ar:'الحبال ومستلزماتها',refs:['ROP-002','ROP-003','ROP-004','ROP-005','ROP-006','ROP-007','ROP-008','ROP-009','ROP-010','ROP-011','ROP-012','ROP-013','ROP-015','ROP-016','ROP-018','ROP-019','ROP-021','ROP-023','ROP-024','ROP-025','ROP-026','ROP-027','ROP-029','ROP-030']},
@@ -12,7 +13,7 @@ export const STORE_COLLECTIONS = {
  'decoration': {en:'Decoration & finishing',ar:'التزيين والتشطيب',refs:['ROP-019','ROP-027','ROP-030','ROP-031','ROP-035','ROP-036','NEW-01','NEW-06','CLIENT-GLITTER-RIBBON','NEW-15']},
 } as const;
 export type CollectionKey=keyof typeof STORE_COLLECTIONS;
-export const collectionUrl=(key:CollectionKey)=>'/shop?collection='+key;
+export const collectionUrl=(key:CollectionKey)=>{const landing=searchPages.collections.find(c=>c.key===key);return landing?'/collections/'+landing.slug:'/shop?collection='+key;};
 export function collectionFor(value:string|null){return value&&Object.hasOwn(STORE_COLLECTIONS,value)?STORE_COLLECTIONS[value as CollectionKey]:undefined;}
 export function legacyCollection(params:URLSearchParams):CollectionKey|undefined {
  if(!/^star[ +_-]*rope$/i.test(params.get('brand')||''))return;

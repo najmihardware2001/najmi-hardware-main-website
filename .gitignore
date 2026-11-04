@@ -17,6 +17,8 @@ playwright-report/
 graphify-out/
 **/graphify-out/
 output/
+frontend/public/images/optimized/
+frontend/src/content/responsive-images.json
 backups/
 *.dump
 *.backup

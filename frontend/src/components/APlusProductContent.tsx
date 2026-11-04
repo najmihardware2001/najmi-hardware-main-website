@@ -6,9 +6,10 @@ import {loadCatalogue} from '../services/catalogueDiscovery';
 import { type ApiProductTemplate } from '../services/api';
 import { colourLabel, measurementLabel, unitLabel } from '../i18n/catalogueLabels';
 import APlusVisuals from './APlusVisuals';
+import {getInitialCatalogue} from '../services/initialCatalogue';
 import {applySeo,canonicalUrl,SITE_URL,productSeoTitle} from '../services/seo';
 export default function APlusProductContent({product}:{product:ApiProductTemplate}){
- const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',c=product.metadata?.listingContent||{},[related,setRelated]=useState<ApiProductTemplate[]>([]);
+ const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',c=product.metadata?.listingContent||{},[related,setRelated]=useState<ApiProductTemplate[]>(()=>getInitialCatalogue().products.filter(p=>p.id!==product.id).slice(0,4));
  useEffect(()=>{loadCatalogue().then(items=>setRelated(items.filter(p=>p.id!==product.id).slice(0,4))).catch(()=>{})},[product.id]);
  useEffect(()=>{applySeo({path:'/product/'+product.id,ar,title:productSeoTitle((ar?product.seoTitleAr:product.seoTitle)||(ar?product.nameAr:product.name),ar),description:(ar?product.metaDescriptionAr:product.metaDescription)||(ar?product.descriptionAr:product.description)||product.name,image:product.imageUrl,type:'product'})},[product,ar]);
  const text=(key:string)=>c[key+(ar?'_ar':'_en')],labels:Record<string,string>={reference:ar?'مرجع المنتج':'Product reference',family:ar?'فئة المنتج':'Product family',length:ar?'الأطوال المختارة':'Selected lengths',sheet:ar?'أبعاد اللوح':'Sheet dimensions',packaging:ar?'التعبئة':'Packaging',colour_preference:ar?'تفضيلات الألوان':'Colour preferences'};

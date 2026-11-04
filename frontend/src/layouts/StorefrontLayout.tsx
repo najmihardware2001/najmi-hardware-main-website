@@ -1,6 +1,6 @@
 import { useStorefrontCopy } from '../i18n/useStorefrontCopy';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useLayoutEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '../StoreContext';
 import { getCartItemCount, getRfqItemCount } from '../store';
@@ -9,6 +9,8 @@ import { BUSINESS_CONTACTS, BUSINESS_EMAILS, generalQuoteUrl } from '../services
 import CatalogueSearch from '../components/CatalogueSearch';
 import RouteMetadata from '../components/RouteMetadata';
 import RouteScrollReset from '../components/RouteScrollReset';
+import {responsiveImage} from '../services/responsiveImages';
+import searchPages from '../content/search-pages.json';
 
 export default function StorefrontLayout() {
   const copy = useStorefrontCopy();
@@ -20,6 +22,8 @@ export default function StorefrontLayout() {
   const rfqCount = getRfqItemCount(state);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const [canGoBack,setCanGoBack]=useState(false);
+  useEffect(()=>setCanGoBack(Number(window.history.state?.idx)>0),[location.key]);
   useLayoutEffect(() => {
     const header = headerRef.current;
     if (!header) return;
@@ -82,9 +86,9 @@ export default function StorefrontLayout() {
       <header ref={headerRef} className="sticky-header im-header">
        <div className="im-utility"><div className="im-wrap"><span className="im-utility-long">{say('KUWAIT ROPE & CORDAGE SPECIALIST / EST. 2001','متخصصون في الحبال بالكويت / منذ ٢٠٠١')}</span><span className="im-utility-short">{say('Shuwaikh, Kuwait','الشويخ، الكويت')}</span><a href={'tel:'+BUSINESS_CONTACTS.owner.phone}><span className="material-symbols-outlined" aria-hidden="true">call</span><bdi dir="ltr">{BUSINESS_CONTACTS.owner.displayPhone}</bdi></a></div></div>
        <div className="storefront-nav im-header-main im-wrap">
-        <div className="storefront-brand-group"><button type="button" aria-label={copy('Open menu')} aria-haspopup="dialog" aria-expanded={mobileMenuOpen} className="im-icon-button im-menu-button" onClick={()=>setMobileMenuOpen(true)}><span className="material-symbols-outlined" aria-hidden="true">menu</span></button><Link to="/" className="storefront-brand"><img src="/images/branding/najmi-logo.jpg" alt={say('Najmi Hardware logo','شعار نجمي هاردوير')} width="40" height="40"/><div><span className="im-brand-name">NAJMI</span><small>{copy('HARDWARE')}</small></div></Link></div>
+        <div className="storefront-brand-group"><button type="button" aria-label={copy('Open menu')} aria-haspopup="dialog" aria-expanded={mobileMenuOpen} className="im-icon-button im-menu-button" onClick={()=>setMobileMenuOpen(true)}><span className="material-symbols-outlined" aria-hidden="true">menu</span></button><Link to="/" className="storefront-brand"><img {...responsiveImage('/images/branding/najmi-logo.jpg','40px')} alt={say('Najmi Hardware logo','شعار نجمي هاردوير')} width="40" height="40"/><div><span className="im-brand-name">NAJMI</span><small>{copy('HARDWARE')}</small></div></Link></div>
         <CatalogueSearch/>
-        <div className="storefront-actions"><button className="im-language-button" type="button" aria-label={ar?'Switch to English':'التبديل إلى العربية'} onClick={()=>i18n.changeLanguage(ar?'en':'ar-KW')}>{ar?'EN':'عربي'}</button>{[{path:'/rfq-basket',icon:'request_quote',label:copy('Wholesale RFQ Basket'),count:rfqCount},{path:'/cart',icon:'shopping_cart',label:ar?'السلة':'Cart',count:cartCount}].map(item=><Link key={item.path} to={item.path} aria-label={item.label} className="im-icon-button im-basket-link"><span className="material-symbols-outlined" aria-hidden="true">{item.icon}</span><span className="im-basket-count">{item.count}</span></Link>)}<Link className="im-icon-button im-account-link" to="/account" aria-label={copy('Sign In')}><span className="material-symbols-outlined" aria-hidden="true">person</span></Link></div>
+        <div className="storefront-actions"><button className="im-language-button" type="button" aria-label={ar?'EN — Switch to English':'عربي — التبديل إلى العربية'} onClick={()=>i18n.changeLanguage(ar?'en':'ar-KW')}>{ar?'EN':'عربي'}</button>{[{path:'/rfq-basket',icon:'request_quote',label:copy('Wholesale RFQ Basket'),count:rfqCount},{path:'/cart',icon:'shopping_cart',label:ar?'السلة':'Cart',count:cartCount}].map(item=><Link key={item.path} to={item.path} aria-label={item.label} className="im-icon-button im-basket-link"><span className="material-symbols-outlined" aria-hidden="true">{item.icon}</span><span className="im-basket-count">{item.count}</span></Link>)}<Link className="im-icon-button im-account-link" to="/account" aria-label={copy('Sign In')}><span className="material-symbols-outlined" aria-hidden="true">person</span></Link></div>
        </div>
        <div className="im-header-nav-row"><div className="im-wrap"><nav className="storefront-desktop-nav" aria-label={say('Main navigation','القائمة الرئيسية')}>{desktopNavItems.map(item=><Link to={item.path} key={item.path} aria-current={isActive(item.path)?'page':undefined}>{copy(item.label)}</Link>)}</nav><a href={generalQuoteUrl(ar)} target="_blank" rel="noopener noreferrer" className="im-header-quote btn btn-primary">{say('Request a quote','اطلب عرض سعر')}<span className="material-symbols-outlined" aria-hidden="true">arrow_outward</span></a></div></div>
       </header>
@@ -113,7 +117,7 @@ export default function StorefrontLayout() {
 
       {/* Main Content */}
       <main id="storefront-content" tabIndex={-1} className="storefront-main" style={{ flexGrow: 1, paddingTop: 'var(--storefront-top, 108px)', paddingBottom: 80, background: 'var(--surface)' }}>
-        {location.pathname!=='/'&&<div className="im-wrap im-route-back">{Number(window.history.state?.idx)>0?<button type="button" data-testid="route-back" onClick={()=>navigate(-1)}><span className="material-symbols-outlined im-direction" aria-hidden="true">arrow_back</span>{say('Back','رجوع')}</button>:<Link to={location.pathname==='/shop'?'/':'/shop'}>{location.pathname==='/shop'?say('Home','الرئيسية'):say('Catalogue','الكتالوج')}</Link>}</div>}
+        {location.pathname!=='/'&&<div className="im-wrap im-route-back">{canGoBack?<button type="button" data-testid="route-back" onClick={()=>navigate(-1)}><span className="material-symbols-outlined im-direction" aria-hidden="true">arrow_back</span>{say('Back','رجوع')}</button>:<Link to={location.pathname==='/shop'?'/':'/shop'}>{location.pathname==='/shop'?say('Home','الرئيسية'):say('Catalogue','الكتالوج')}</Link>}</div>}
         <div className="page-enter">
           <Outlet />
         </div>
@@ -136,7 +140,7 @@ export default function StorefrontLayout() {
             <p className="text-body-sm" style={{ color: 'var(--on-primary-container)' }}>{copy("C.R.")} {state.settings.crNumber}</p>
           </div>
           <div>
-            <h4 className="text-label-lg" style={{ color: 'var(--pure-white)', marginBottom: 24, fontWeight: 700 }}>{copy("Company")}</h4>
+            <h2 className="text-label-lg" style={{ color: 'var(--pure-white)', marginBottom: 24, fontWeight: 700 }}>{copy("Company")}</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <Link to="/about" style={{ color: 'var(--on-primary-container)', textDecoration: 'none' }}>{copy("About Us")}</Link>
               <Link to="/manufacturing" style={{ color: 'var(--on-primary-container)', textDecoration: 'none' }}>{copy("Manufacturing")}</Link>
@@ -145,7 +149,7 @@ export default function StorefrontLayout() {
             </div>
           </div>
           <div>
-            <h4 className="text-label-lg" style={{ color: 'var(--pure-white)', marginBottom: 24, fontWeight: 700 }}>{copy("Sales")}</h4>
+            <h2 className="text-label-lg" style={{ color: 'var(--pure-white)', marginBottom: 24, fontWeight: 700 }}>{copy("Sales")}</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <Link to="/shop" style={{ color: 'var(--on-primary-container)', textDecoration: 'none' }}>{copy("Retail Shop")}</Link>
               <Link to="/wholesale" style={{ color: 'var(--on-primary-container)', textDecoration: 'none' }}>{copy("Wholesale Supply")}</Link>
@@ -153,7 +157,7 @@ export default function StorefrontLayout() {
             </div>
           </div>
           <div>
-            <h4 className="text-label-lg" style={{ color: 'var(--pure-white)', marginBottom: 24, fontWeight: 700 }}>{copy("Contact")}</h4>
+            <h2 className="text-label-lg" style={{ color: 'var(--pure-white)', marginBottom: 24, fontWeight: 700 }}>{copy("Contact")}</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <span style={{ color: 'var(--on-primary-container)', display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined icon-sm">call</span> <bdi dir="ltr">{BUSINESS_CONTACTS.owner.displayPhone}</bdi></span>
               <div style={{ color: 'var(--on-primary-container)' }}><BusinessContacts /></div>
@@ -167,6 +171,7 @@ export default function StorefrontLayout() {
         </div>
       </footer>
 
+      <nav className="im-wrap seo-directory" aria-label={say('Browse product categories','تصفح فئات المنتجات')}><nav>{searchPages.collections.map(c=><Link key={c.slug} to={'/collections/'+c.slug}>{ar?c.ar:c.en}</Link>)}</nav></nav>
       {/* Bottom Navigation (Mobile Only) */}
       <nav className="bottom-nav hide-desktop im-mobile-nav" aria-label={say('Quick navigation','التنقل السريع')}>
         <div style={{
