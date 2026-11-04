@@ -38,3 +38,7 @@ Once the owner's analytics property is available, configure and verify WhatsApp,
 ## Evidence
 
 The supplied mobile report scored 54 (LCP 6.6 s, CLS 0.405); desktop scored 59 (LCP 3.1 s, CLS 0.799). Both reported no field data. Local audits and acceptance evidence are under `D:/Codex Output/najmi hardware main (2)/2026-11-04/seo-performance/`. Live post-deployment measurements are recorded separately. Local Lighthouse results must not be presented as PageSpeed service results.
+
+Final Lighthouse CLI 13.6.0 audits against the published domain returned mobile **96 performance / 100 accessibility / 100 best practices / 100 SEO**, and desktop **99 / 100 / 100 / 100**. Mobile LCP was 2.1 s, TBT 150 ms and CLS 0; desktop LCP was 0.7 s, TBT 0 ms and CLS 0. These are single laboratory runs on this machine against the public website, not fresh hosted PageSpeed results or real-user field measurements. Conditions differ from the supplied reports, and future runs can vary.
+
+All 15 automated test groups and 59 headed live-browser checks passed. Checks covered all eight collections in both languages, narrow layout, guides, ribbon/Velcro dimensions, persistent colour picker, spaced owner WhatsApp URL, basket refresh and on-demand rope finder. There were no runtime/hydration errors, and no WhatsApp message was sent. Result summary: `seo-performance-results-2026-11-04.json`; full mobile/desktop HTML reports and screenshots are in the output folder above.

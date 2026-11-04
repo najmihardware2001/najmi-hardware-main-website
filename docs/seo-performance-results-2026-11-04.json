@@ -1,0 +1,311 @@
+{
+  "verifiedDate": "2026-11-04",
+  "source": "Lighthouse CLI against live domain, not the hosted PageSpeed service",
+  "suppliedPageSpeed": {
+    "mobile": 54,
+    "desktop": 59
+  },
+  "reports": {
+    "mobile": {
+      "fetchTime": "2026-11-04T16:49:49.761Z",
+      "url": "https://najmihardware.com/",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 2015.0855,
+          "display": "2.0 s"
+        },
+        "largest-contentful-paint": {
+          "value": 2080.9584999999997,
+          "display": "2.1 s"
+        },
+        "total-blocking-time": {
+          "value": 146.99999999999977,
+          "display": "150 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        }
+      }
+    },
+    "desktop": {
+      "fetchTime": "2026-11-04T16:51:04.160Z",
+      "url": "https://najmihardware.com/",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 711.6460000000002,
+          "display": "0.7 s"
+        },
+        "largest-contentful-paint": {
+          "value": 716.1460000000002,
+          "display": "0.7 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        }
+      }
+    }
+  },
+  "browser": {
+    "checks": [
+      {
+        "name": "/ropes-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/ropes-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/ropes-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/wire-ropes-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/wire-ropes-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/wire-ropes-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/decorative-ropes-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/decorative-ropes-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/decorative-ropes-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/ribbons-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/ribbons-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/ribbons-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/bag-handles-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/bag-handles-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/bag-handles-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/twine-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/twine-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/twine-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/webbing-jute-fabric-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/webbing-jute-fabric-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/webbing-jute-fabric-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/velcro-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/velcro-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/velcro-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": " buying guide",
+        "pass": true
+      },
+      {
+        "name": "/en/ropes-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/ropes-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/ropes-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en/wire-ropes-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/wire-ropes-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/wire-ropes-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en/decorative-ropes-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/decorative-ropes-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/decorative-ropes-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en/ribbons-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/ribbons-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/ribbons-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en/bag-handles-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/bag-handles-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/bag-handles-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en/twine-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/twine-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/twine-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en/webbing-jute-fabric-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/webbing-jute-fabric-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/webbing-jute-fabric-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en/velcro-kuwait products present",
+        "pass": true
+      },
+      {
+        "name": "/en/velcro-kuwait indexable",
+        "pass": true
+      },
+      {
+        "name": "/en/velcro-kuwait fits mobile",
+        "pass": true
+      },
+      {
+        "name": "/en buying guide",
+        "pass": true
+      },
+      {
+        "name": "all seven ribbon widths",
+        "pass": true
+      },
+      {
+        "name": "picker remains open",
+        "pass": true
+      },
+      {
+        "name": "quote retains width and colour",
+        "pass": true
+      },
+      {
+        "name": "owner recipient",
+        "pass": true
+      },
+      {
+        "name": "basket survives refresh",
+        "pass": true
+      },
+      {
+        "name": "five Velcro sizes",
+        "pass": true
+      },
+      {
+        "name": "rope finder opens on demand",
+        "pass": true
+      },
+      {
+        "name": "desktop fits",
+        "pass": true
+      },
+      {
+        "name": "no runtime or hydration errors",
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  "automatedTests": 15,
+  "oldDomainRedirects": "Unavailable: owner has no old hosting access"
+}

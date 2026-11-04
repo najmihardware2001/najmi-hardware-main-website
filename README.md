@@ -9,7 +9,7 @@ Primary domain: **https://najmihardware.com**. Arabic is at `/`; English is at `
 
 ## What this first Netlify deployment runs
 
-- All 58 approved public catalogue products, 388 specification groups, existing prices, colour options and corrected product media.
+- All 58 approved public catalogue products, 398 specification groups, existing prices, colour options and corrected product media.
 - Product galleries, colour previews, saved selections, comparisons, bulk requirements and a browser-persisted cart/quotation basket.
 - Spaced, numbered WhatsApp quotation requests to Najmuddin, **+965 9965 2718**, and client-side RFQ PDFs.
 - A Netlify Function providing the approved **read-only public catalogue**. `/api/health` honestly reports `database: "not-configured"`.
@@ -41,7 +41,7 @@ Open http://localhost:5180. This uses the same built pages and public-catalogue 
 
 ## SEO output
 
-Each build creates **136 initial HTML pages**: 58 products and 10 information/catalogue routes in both languages. Product names, descriptions, image links, specifications and catalogue links are present before JavaScript runs. React then takes over the same route with the interactive storefront. This is the same response for people and crawlers.
+Each build creates **158 initial HTML pages**: 58 products, 10 information/catalogue routes, eight product collections and three buying guides in both languages. The build emits the completed React storefront and public data before JavaScript runs, then hydrates the same layout. Original media, variants and quote interactions are retained. See [the November SEO/performance release](docs/SEO-PERFORMANCE-2026-11-04.md) for implementation and measurements.
 
 - `frontend/public/robots.txt`
 - `frontend/public/sitemap.xml` — sitemap index to submit in Search Console
