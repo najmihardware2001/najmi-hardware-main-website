@@ -32,6 +32,10 @@ test('private routes and real 404 fallback are configured',()=>{
  assert.ok(fs.readFileSync(path.join(dist,'app.html'),'utf8').includes('noindex'));
  const home=fs.readFileSync(path.join(dist,'index.html'),'utf8');assert.ok(home.includes('2001'));assert.ok(!home.includes('1980'));
 });
+test('initial HTML contains completed storefronts rather than streamed loading placeholders',()=>{
+ const pages=['','en','shop','en/shop','collections/ropes-kuwait','en/collections/ribbons-kuwait','en/product/7882'];
+ for(const page of pages){const html=fs.readFileSync(path.join(dist,page,'index.html'),'utf8');assert.ok(html.includes('data-prerender="true"'),page);assert.ok(!html.includes('<!--$?-->'),page+' pending Suspense');assert.ok(!html.includes('<!--$!-->'),page+' fallback');assert.ok(!html.includes('hidden id="S:'),page+' hidden streamed content');}
+});
 test('function serves catalogue paths and explicitly gates stored orders and login',async()=>{
  const {handler}=require('../netlify/functions/api.js');
  const request=async(route,method='GET',body)=>handler({httpMethod:method,path:route,headers:{'content-type':'application/json'},queryStringParameters:null,body:body?JSON.stringify(body):null,isBase64Encoded:false},{});

@@ -8,7 +8,7 @@ const ComparePage=lazy(()=>import('./pages/storefront/ComparePage'));
 const BulkQuotePage=lazy(()=>import('./pages/storefront/BulkQuotePage'));
 import HomePage from './pages/storefront/HomePage';
 const GuidePage=lazy(()=>import('./pages/storefront/GuidePage'));
-const ShopPage = lazy(() => import('./pages/storefront/ShopPage'));
+import ShopPage from './pages/storefront/ShopPage';
 const ProductPage = lazy(() => import('./pages/storefront/ProductPage'));
 const CartPage = lazy(() => import('./pages/storefront/CartPage'));
 const CheckoutPage = lazy(() => import('./pages/storefront/CheckoutPage'));

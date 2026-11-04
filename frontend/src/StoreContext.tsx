@@ -278,7 +278,7 @@ interface ToastState {
 export function StoreProvider({ children }: { children: ReactNode }) {
   const {i18n}=useTranslation();
   const [state, dispatch] = useReducer(storeReducer, undefined, ()=>hasPrerender()?getDefaultState():loadStore());
-  React.useEffect(()=>{if(hasPrerender()&&localStorage.getItem('najmi-demo-store'))dispatch({type:'SET_STATE',payload:loadStore()})},[]);
+  React.useEffect(()=>{if(hasPrerender()&&localStorage.getItem('najmi-demo-store'))React.startTransition(()=>dispatch({type:'SET_STATE',payload:loadStore()}))},[]);
   const [toast, setToast] = React.useState<ToastState>({ message: '', icon: 'check_circle', visible: false });
   const toastTimeoutRef = React.useRef<number | null>(null);
 
