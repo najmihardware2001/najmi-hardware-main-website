@@ -41,7 +41,7 @@ const resources = {
 };
 
 // Read the preference before LanguageDetector can cache the browser language.
-const savedLanguage = typeof localStorage==='undefined'?null:localStorage.getItem('i18nextLng');
+const savedLanguage = typeof location!=='undefined'&&/^\/en(?:\/|$)/.test(location.pathname)?'en':'ar-KW';
 
 i18n
   // Configure language detector
@@ -74,10 +74,7 @@ i18n
 // Override the initial language logic per requirements:
 // On a customer's first visit: Always display Arabic (even if browser is English or outside Kuwait).
 // If a user manually changes it, it gets stored in localStorage and loaded next time.
-const storedLang = typeof localStorage==='undefined'?null:localStorage.getItem('i18nextLng');
-if (!storedLang || !['ar-KW', 'en'].includes(storedLang)) {
-  i18n.changeLanguage('ar-KW');
-}
+
 
 // Update the <html> element lang and dir attributes on language change
 const updateHtmlDirection = (lang: string) => {

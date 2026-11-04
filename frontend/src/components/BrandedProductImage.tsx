@@ -1,4 +1,4 @@
-import {useLayoutEffect,useRef,useState,type CSSProperties,type ImgHTMLAttributes} from 'react';
+import {useEffect,useRef,useState,type CSSProperties,type ImgHTMLAttributes} from 'react';
 import {brandGeometry,brandPlacementFor,hasEmbeddedBranding} from '../services/productBranding';
 import './branded-product-image.css';
 import {responsiveImage} from '../services/responsiveImages';
@@ -8,7 +8,7 @@ export default function BrandedProductImage({className='',style,src,onLoad,...pr
  const branding=import.meta.env.BASE_URL+'images/branding/star-rope-approved-display.webp';
  const frame=useRef<HTMLSpanElement>(null),image=useRef<HTMLImageElement>(null),[geometry,setGeometry]=useState<ReturnType<typeof brandGeometry>>(null);
  const placement=brandPlacementFor(src),embeddedBrand=hasEmbeddedBranding(src);
- useLayoutEffect(()=>{
+ useEffect(()=>{
   let animation=0;const measure=()=>{cancelAnimationFrame(animation);animation=requestAnimationFrame(()=>{if(frame.current&&image.current)setGeometry(brandGeometry(image.current,frame.current,placement))})};
   setGeometry(null);const img=image.current,element=frame.current;
   const observer=new ResizeObserver(measure);if(element)observer.observe(element);if(img){observer.observe(img);img.addEventListener('load',measure);if(img.complete)measure()}

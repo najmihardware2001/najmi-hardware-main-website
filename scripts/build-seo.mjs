@@ -38,7 +38,7 @@ assert.ok(scriptTags.includes('/assets/'),'Vite assets missing');
 async function render(route,ar,p){
  const name=p?(ar?p.name_ar:p.name_en):pages[route][ar?1:0];
  const rawTitle=p?((ar?p.seo_title_ar:p.seo_title_en)||name):name;
- const title=/najmi hardware|نجمي/i.test(rawTitle)?rawTitle:rawTitle+(ar?' | نجمي هاردوير الكويت':' | Najmi Hardware Kuwait');
+ const title=/najmi(?: hardware)?|نجمي/i.test(rawTitle)?rawTitle:rawTitle+(ar?' | نجمي هاردوير الكويت':' | Najmi Hardware Kuwait');
  const description=p?((ar?p.seo_description_ar:p.seo_description_en)||(ar?p.short_description_ar:p.short_description_en)||name):pages[route][ar?3:2];
  const canonical=url(route,ar),image=new URL(p?imageOf(p):'/images/branding/najmi-social.jpg',origin).href;
  const graph=[business,{'@type':'WebSite','@id':origin+'/#website',name:'Najmi Hardware',url:url('/',ar),inLanguage:ar?'ar-KW':'en-KW',publisher:{'@id':origin+'/#business'}}];

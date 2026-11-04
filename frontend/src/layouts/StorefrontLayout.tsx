@@ -1,6 +1,6 @@
 import { useStorefrontCopy } from '../i18n/useStorefrontCopy';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '../StoreContext';
 import { getCartItemCount, getRfqItemCount } from '../store';
@@ -21,19 +21,8 @@ export default function StorefrontLayout() {
   const cartCount = getCartItemCount(state);
   const rfqCount = getRfqItemCount(state);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
   const [canGoBack,setCanGoBack]=useState(false);
   useEffect(()=>setCanGoBack(Number(window.history.state?.idx)>0),[location.key]);
-  useLayoutEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-    const measure = () => document.documentElement.style.setProperty('--storefront-top', `${header.getBoundingClientRect().bottom}px`);
-    const observer = new ResizeObserver(measure);
-    observer.observe(header);
-    window.addEventListener('resize', measure);
-    measure();
-    return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
-  }, []);
 
   useLayoutEffect(() => {
     if (!mobileMenuOpen) return;
@@ -83,7 +72,7 @@ export default function StorefrontLayout() {
     <div className="storefront-shell im-storefront" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <RouteScrollReset /><RouteMetadata />
       <a className="im-skip-link" href="#storefront-content" onClick={event=>{event.preventDefault();document.getElementById('storefront-content')?.focus()}}>{say('Skip to content','انتقل إلى المحتوى')}</a>
-      <header ref={headerRef} className="sticky-header im-header">
+      <header className="sticky-header im-header">
        <div className="im-utility"><div className="im-wrap"><span className="im-utility-long">{say('KUWAIT ROPE & CORDAGE SPECIALIST / EST. 2001','متخصصون في الحبال بالكويت / منذ ٢٠٠١')}</span><span className="im-utility-short">{say('Shuwaikh, Kuwait','الشويخ، الكويت')}</span><a href={'tel:'+BUSINESS_CONTACTS.owner.phone}><span className="material-symbols-outlined" aria-hidden="true">call</span><bdi dir="ltr">{BUSINESS_CONTACTS.owner.displayPhone}</bdi></a></div></div>
        <div className="storefront-nav im-header-main im-wrap">
         <div className="storefront-brand-group"><button type="button" aria-label={copy('Open menu')} aria-haspopup="dialog" aria-expanded={mobileMenuOpen} className="im-icon-button im-menu-button" onClick={()=>setMobileMenuOpen(true)}><span className="material-symbols-outlined" aria-hidden="true">menu</span></button><Link to="/" className="storefront-brand"><img {...responsiveImage('/images/branding/najmi-logo.jpg','40px')} alt={say('Najmi Hardware logo','شعار نجمي هاردوير')} width="40" height="40"/><div><span className="im-brand-name">NAJMI</span><small>{copy('HARDWARE')}</small></div></Link></div>
@@ -116,7 +105,7 @@ export default function StorefrontLayout() {
       )}
 
       {/* Main Content */}
-      <main id="storefront-content" tabIndex={-1} className="storefront-main" style={{ flexGrow: 1, paddingTop: 'var(--storefront-top, 108px)', paddingBottom: 80, background: 'var(--surface)' }}>
+      <main id="storefront-content" tabIndex={-1} className="storefront-main" style={{ flexGrow: 1, paddingBottom: 80, background: 'var(--surface)' }}>
         {location.pathname!=='/'&&<div className="im-wrap im-route-back">{canGoBack?<button type="button" data-testid="route-back" onClick={()=>navigate(-1)}><span className="material-symbols-outlined im-direction" aria-hidden="true">arrow_back</span>{say('Back','رجوع')}</button>:<Link to={location.pathname==='/shop'?'/':'/shop'}>{location.pathname==='/shop'?say('Home','الرئيسية'):say('Catalogue','الكتالوج')}</Link>}</div>}
         <div className="page-enter">
           <Outlet />

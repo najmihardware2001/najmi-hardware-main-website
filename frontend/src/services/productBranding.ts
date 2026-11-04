@@ -12,6 +12,7 @@ export function brandPlacementFor(src:string|undefined):BrandPlacement{
 
 // Place relative to the visible photo, including the letterboxing of non-square sources.
 export function brandGeometry(image:HTMLImageElement,frame:HTMLElement,placement:BrandPlacement){
+ if(!image.naturalWidth||!image.naturalHeight)return null;
  const box=image.getBoundingClientRect(),outer=frame.getBoundingClientRect();
  if(!image.naturalWidth||!image.naturalHeight||!box.width||!box.height)return null;
  const fit=getComputedStyle(image).objectFit;
