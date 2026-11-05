@@ -16,7 +16,12 @@ test('all product HTML has unique metadata, product content, reciprocal language
   assert.equal((html.match(/rel="canonical"/g)||[]).length,1);assert.ok(html.includes('https://najmihardware.com/'+(base?'en/':'')+'product/'+p.id));
   assert.ok(html.includes('hreflang="ar-KW"'));assert.ok(html.includes('hreflang="en-KW"'));
   const schema=JSON.parse(html.match(/<script id="seo-prerender-schema" type="application\/ld\+json">(.*?)<\/script>/s)[1]);
-  const product=schema['@graph'].find(n=>n['@type']==='Product');assert.equal(product.name,base?p.name_en:p.name_ar);assert.ok(!product.offers);assert.ok(!product.aggregateRating);
+  const page=schema['@graph'].find(n=>n['@type']==='WebPage');assert.equal(page.name,base?p.name_en:p.name_ar);assert.equal(page.identifier,p.source_id);
+  // Check every JSON-LD block, including React's A+ content, not only the head.
+  for(const match of html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/gs)){
+   const block=JSON.parse(match[1]),nodes=block['@graph']||[block];
+   assert.ok(!nodes.some(n=>[].concat(n['@type']||[]).some(t=>['Product','ProductGroup','Offer','AggregateOffer','Review','AggregateRating'].includes(t))),'Quote-only page must not claim product rich-result eligibility');
+  }
   assert.ok(schema['@graph'].some(n=>n['@type']==='BreadcrumbList'));
  }
 });

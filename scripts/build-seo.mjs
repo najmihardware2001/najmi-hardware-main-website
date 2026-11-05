@@ -43,10 +43,12 @@ async function render(route,ar,p){
  const canonical=url(route,ar),image=new URL(p?imageOf(p):'/images/branding/najmi-social.jpg',origin).href;
  const graph=[business,{'@type':'WebSite','@id':origin+'/#website',name:'Najmi Hardware',url:url('/',ar),inLanguage:ar?'ar-KW':'en-KW',publisher:{'@id':origin+'/#business'}}];
  const crumbs=[{'@type':'ListItem',position:1,name:ar?'الرئيسية':'Home',item:url('/',ar)}];if(route!=='/')crumbs.push({'@type':'ListItem',position:2,name:p?(ar?'المنتجات':'Products'):name,item:p?url('/shop',ar):canonical});if(p)crumbs.push({'@type':'ListItem',position:3,name,item:canonical});
- if(crumbs.length>1)graph.push({'@type':'BreadcrumbList',itemListElement:crumbs});
+ if(crumbs.length>1)graph.push({'@type':'BreadcrumbList','@id':canonical+'#breadcrumb',itemListElement:crumbs});
  const category=searchPages.collections.find(c=>route==='/collections/'+c.slug);
  if(category)graph.push({'@type':'CollectionPage',name:ar?category.ar:category.en,url:canonical,mainEntity:{'@type':'ItemList',itemListElement:data.products.filter(p=>category.refs.includes(p.source_id)).map((p,i)=>({'@type':'ListItem',position:i+1,url:url('/product/'+p.id,ar)}))}});
- if(p)graph.push({'@type':'Product','@id':canonical+'#product',name,description:ar?p.short_description_ar:p.short_description_en,productID:p.source_id,image:[image],url:canonical});
+ // Quote-only catalogue pages have no published offer or customer reviews.
+ // Describe the page without emitting an ineligible Google Product rich result.
+ if(p)graph.push({'@type':'WebPage','@id':canonical+'#webpage',name,description:ar?p.short_description_ar:p.short_description_en,identifier:p.source_id,image:[image],url:canonical,inLanguage:ar?'ar-KW':'en-KW',isPartOf:{'@id':origin+'/#website'},breadcrumb:{'@id':canonical+'#breadcrumb'}});
  const robots=indexable?'index,follow,max-image-preview:large':'noindex,nofollow';
  const rendered=await renderStorefront(route,ar);
  const imagePreloads=(rendered.html.match(/<link[^>]+rel="preload"[^>]+as="image"[^>]*>/g)||[]).join('');

@@ -12,6 +12,7 @@ import { quoteItem } from '../services/quoteBasket';
 import { useCardSlideshow } from '../services/cardSlideshow';
 import {responsiveImage} from '../services/responsiveImages';
 
+const cardImageSizes='(max-width: 767px) calc((100vw - 104px) / 2), (max-width: 1100px) 28vw, 280px';
 export default function ProductCard({product,onAdd}:{product:ApiProductTemplate;onAdd:(event:React.MouseEvent,product:ApiProductTemplate)=>void}) {
  const {i18n}=useTranslation(),ar=i18n.language==='ar-KW',name=ar?(product.nameAr||product.name):product.name;
  const {dispatch,showToast}=useStore();
@@ -22,13 +23,13 @@ export default function ProductCard({product,onAdd}:{product:ApiProductTemplate;
  const {playing}=useCardSlideshow();
  useEffect(()=>{const observer=new IntersectionObserver(entries=>setVisible(entries[0].isIntersecting),{rootMargin:'0px'});if(ref.current)observer.observe(ref.current);return()=>observer.disconnect()},[]);
  useEffect(()=>{if(!visible||!playing||images.length<2)return;const timer=setInterval(()=>{if(!document.hidden)setIndex(i=>(i+1)%images.length)},5000);return()=>clearInterval(timer)},[visible,playing,images.length]);
- useEffect(()=>{if(visible&&images.length>1){const next=new Image();next.src=responsiveImage(images[(index+1)%images.length]).src||''}},[index,images,visible]);
+ useEffect(()=>{if(visible&&images.length>1){const next=new Image(),source=responsiveImage(images[(index+1)%images.length],cardImageSizes);if(source.srcSet){next.sizes=source.sizes!;next.srcset=source.srcSet}next.src=source.src||''}},[index,images,visible]);
  const image=images[index%images.length];
  const description=(ar?product.cardDescriptionAr:product.cardDescription)||(ar?product.descriptionAr:product.description)||'';
  return <article ref={ref} className="card product-card" data-product-id={product.id}>
   <div className="product-card-gallery">
    <Link className="product-card-media" to={`/product/${product.id}`} aria-label={name}>
-    {image?<BrandedProductImage src={image} alt={name} width="600" height="600" loading="lazy" decoding="async"/>:<span className="material-symbols-outlined" aria-hidden="true">image</span>}
+    {image?<BrandedProductImage src={image} alt={name} width="600" height="600" sizes={cardImageSizes} loading="lazy" decoding="async"/>:<span className="material-symbols-outlined" aria-hidden="true">image</span>}
    </Link>
   </div>
   <div className="product-card-body">
