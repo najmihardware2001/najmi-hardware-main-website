@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '../StoreContext';
 import { getCartItemCount, getRfqItemCount } from '../store';
 import BusinessContacts from '../components/BusinessContacts';
-import { BUSINESS_CONTACTS, BUSINESS_EMAILS, generalQuoteUrl } from '../services/businessContacts';
+import { BUSINESS_CONTACTS, BUSINESS_EMAILS, generalQuoteUrl, whatsappUrl } from '../services/businessContacts';
 import CatalogueSearch from '../components/CatalogueSearch';
 import RouteMetadata from '../components/RouteMetadata';
 import RouteScrollReset from '../components/RouteScrollReset';
@@ -193,6 +193,22 @@ export default function StorefrontLayout() {
           ))}
         </div>
       </nav>
+      <a
+        className="im-whatsapp-float"
+        href={whatsappUrl(BUSINESS_CONTACTS.owner.phone, ar
+          ? 'مرحباً ناظم الدين،\n\nأرغب بالتواصل مع نجمي هاردوير.\n\nشكراً.'
+          : 'Hello Nazmuddin,\n\nI would like to contact Najmi Hardware.\n\nThank you.')}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={say('Contact Nazmuddin on WhatsApp at +965 9965 2718','تواصل مع ناظم الدين عبر واتساب على الرقم +965 9965 2718')}
+        title={say('Contact us on WhatsApp','تواصل معنا عبر واتساب')}
+      >
+        <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M16 3.25A12.45 12.45 0 0 0 5.3 22.05L3.7 28.1l6.2-1.62A12.45 12.45 0 1 0 16 3.25Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+          <path d="M12.18 10.1c-.28-.62-.58-.63-.85-.64h-.72c-.25 0-.65.1-.99.48-.34.37-1.3 1.27-1.3 3.1 0 1.82 1.33 3.58 1.52 3.82.19.25 2.57 4.11 6.35 5.6 3.14 1.24 3.78 1 4.46.94.68-.06 2.2-.9 2.51-1.77.31-.86.31-1.6.22-1.76-.1-.15-.34-.25-.71-.43-.37-.18-2.2-1.08-2.54-1.2-.34-.13-.59-.19-.83.18-.25.37-.96 1.2-1.17 1.45-.21.25-.43.28-.8.1-.37-.19-1.56-.58-2.98-1.85-1.1-.98-1.85-2.2-2.07-2.57-.21-.37-.02-.57.16-.75.16-.16.37-.43.55-.64.19-.22.25-.37.37-.62.12-.24.06-.46-.03-.64-.09-.19-.82-2.03-1.15-2.78Z" fill="currentColor"/>
+        </svg>
+        <span className="im-whatsapp-float-label">{say('Contact us','تواصل معنا')}</span>
+      </a>
     </div>
   );
 }

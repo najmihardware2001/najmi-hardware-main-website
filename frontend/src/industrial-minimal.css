@@ -134,6 +134,15 @@ html[dir=rtl] .im-storefront{font-family:var(--im-arabic);line-height:1.85}html[
 .im-storefront .im-finder select{font-size:14px;border-radius:var(--im-radius)!important}
 .im-storefront .im-cart-page button{min-width:44px;min-height:44px}
 
+.im-storefront .im-whatsapp-float{position:fixed;z-index:48;right:24px;bottom:24px;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#25d366;color:#fff;box-shadow:0 8px 24px rgba(16,35,61,.24);text-decoration:none;transition:transform .18s ease,box-shadow .18s ease}
+.im-storefront .im-whatsapp-float:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(16,35,61,.28)}
+.im-storefront .im-whatsapp-float:focus-visible{outline:3px solid var(--im-navy);outline-offset:3px}
+.im-storefront .im-whatsapp-float svg{width:32px;height:32px;display:block}
+.im-storefront .im-whatsapp-float-label{position:absolute;inset-inline-end:calc(100% + 10px);white-space:nowrap;border-radius:999px;padding:8px 12px;background:var(--im-navy);color:#fff;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transform:translateX(4px);transition:opacity .18s ease,transform .18s ease}
+.im-storefront .im-whatsapp-float:is(:hover,:focus-visible) .im-whatsapp-float-label{opacity:1;transform:translateX(0)}
+@media(max-width:1279px){.im-storefront .im-whatsapp-float{right:16px;bottom:calc(80px + env(safe-area-inset-bottom));width:54px;height:54px}.im-storefront:has(.im-mobile-product-action) .im-whatsapp-float{bottom:calc(150px + env(safe-area-inset-bottom))}.im-storefront .im-whatsapp-float svg{width:30px;height:30px}.im-storefront .im-whatsapp-float-label{display:none}}
+@media(prefers-reduced-motion:reduce){.im-storefront .im-whatsapp-float{transition:none}}
+
 /* Keep slideshow tools off the product photos; one control serves the collection. */
 .im-storefront .im-collection-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .im-storefront .im-card-motion{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:4px 8px;background:none;border:0;color:var(--im-muted);font-size:12px;cursor:pointer}

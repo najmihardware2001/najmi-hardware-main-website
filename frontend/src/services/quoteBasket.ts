@@ -23,7 +23,7 @@ export type QuoteContact={name:string;phone:string;email:string;company:string;n
 export const emptyContact:QuoteContact={name:'',phone:'',email:'',company:'',notes:'',project:''};
 export function basketMessage(items:RfqItem[],ar:boolean,contact:QuoteContact):string {
  const clean=(value:string|undefined)=>String(value||'').replace(/[\r\n]+/g,' ').trim();
- const blocks=[ar?'*نجمي هاردوير | طلب عرض سعر*':'*NAJMI HARDWARE | QUOTE REQUEST*',ar?'مرحباً نجم الدين، أرجو عرض سعر للمتطلبات التالية:':'Hello Najmuddin, please quote for the following requirements:'];
+ const blocks=[ar?'*نجمي هاردوير | طلب عرض سعر*':'*NAJMI HARDWARE | QUOTE REQUEST*',ar?'مرحباً ناظم الدين، أرجو عرض سعر للمتطلبات التالية:':'Hello Nazmuddin, please quote for the following requirements:'];
  if(contact.project)blocks.push((ar?'*المشروع:* ':'*Project:* ')+clean(contact.project));
  for(const [index,item] of items.entries()){
   const name=ar?(item.productNameAr||item.productName||item.productId):(item.productName||item.productId);

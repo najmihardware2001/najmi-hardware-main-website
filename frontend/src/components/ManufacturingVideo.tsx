@@ -41,8 +41,6 @@ export default function ManufacturingVideo() {
         )}
       </div>
       
-      {/* Disclaimer */}
-      <p style={{ fontSize: '0.8rem', color: 'var(--on-surface-variant)', textAlign: 'right', fontStyle: 'normal', opacity: 1 }}> {copy("*Illustrative manufacturing visualisation")} </p>
     </div>
   );
 }
