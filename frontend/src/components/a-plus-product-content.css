@@ -1,0 +1,38 @@
+.a-plus-content .a-plus-intro {
+  max-width: none;
+  padding: clamp(22px, 4vw, 42px);
+  background: #10233d;
+  color: #fff;
+  border-inline-start: 4px solid #e86e26;
+  border-radius: 4px;
+}
+.a-plus-intro .catalogue-eyebrow { color: #e8b672; }
+.a-plus-content .a-plus-intro h2 { color: #fff; margin-block: 8px 16px; }
+.a-plus-intro > p:last-child { max-width: 78ch; margin-block-end: 0; }
+.a-plus-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-block: 24px 36px;
+}
+.a-plus-features article {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #dbe2ea;
+  background: #fff;
+  border-radius: 4px;
+}
+.a-plus-features article > span { color: #b94d14; font-size: 13px; font-weight: 700; }
+.a-plus-features p { margin: 12px 0 0; color: #17304c; overflow-wrap: anywhere; }
+.a-plus-content .a-plus-columns { align-items: start; }
+.a-plus-content .a-plus-faq summary { min-height: 44px; align-content: center; }
+.a-plus-content .a-plus-faq details p { max-width: 85ch; color: #40516a; }
+.a-plus-content .a-plus-related strong { display: block; line-height: 1.5; }
+@media (max-width: 700px) {
+  .a-plus-content { padding-inline: 16px; }
+  .a-plus-features { grid-template-columns: 1fr; gap: 10px; margin-block: 18px 24px; }
+  .a-plus-features article { padding: 16px; display: flex; gap: 16px; align-items: baseline; }
+  .a-plus-features p { margin: 0; }
+  .a-plus-content .a-plus-intro h2 { font-size: 24px; line-height: 1.35; }
+  .a-plus-content .a-plus-columns { gap: 18px; }
+}
