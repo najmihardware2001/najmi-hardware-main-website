@@ -1502,7 +1502,7 @@ class ApiService {
         parentReference: p.source_id,
         enquiryColours: Array.isArray(p.enquiry_colours) ? p.enquiry_colours : [],
         priorityGallery: Array.isArray(p.gallery_priority_urls) ? p.gallery_priority_urls : [],
-        master46: ['NAJMI_MASTER_46','NAJMI_CLIENT_APPROVAL_20261023'].includes(p.source_system),
+        master46: p.source_system === 'NAJMI_MASTER_46' || String(p.source_system || '').startsWith('NAJMI_CLIENT_APPROVAL_'),
         canonicalSlug: p.slug,
         listingContent: p.listing_content,
         discovery: p.discovery,

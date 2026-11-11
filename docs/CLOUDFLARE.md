@@ -11,7 +11,7 @@ Project: **najmi-hardware-main-website**
 3. Set the build command to **`npm run build:cloudflare`**.
 4. Set the deploy command to **`npx wrangler deploy`**.
 5. Save and deploy the latest commit. Root `wrangler.jsonc` selects `cloudflare/worker.mjs`, binds `frontend/dist` as `ASSETS`, and uses the existing project name.
-6. Check the project URL: `/api/health` must return JSON with 58 products; `/en/shop` must load the catalogue; `/en/product/7849` must allow diameter, length and colour selection. A static homepage alone does not prove the deployment is complete.
+6. Check the project URL: `/api/health` must return JSON with 65 products; `/en/shop` must load the catalogue; `/en/product/7849` must allow diameter, length and colour selection. A static homepage alone does not prove the deployment is complete.
 
 The API is the approved read-only catalogue. It includes all existing public options and prices, keeps retail purchasing gated and supports the local cart/quote basket and WhatsApp enquiries. Database-backed accounts/admin/stored orders are still unavailable until PostgreSQL and the commerce API are hosted.
 
@@ -23,7 +23,7 @@ The deployed configuration uses Worker routes `najmihardware.com/*` and `www.naj
 
 The Worker redirects `www` and root HTTP requests to the canonical HTTPS root, preserving paths and queries. Mail/MX/SPF/DKIM records were not changed. Custom Domain activation was rejected because of existing DNS records; it is not required for this route-based setup.
 
-Check **Domains & Routes** after future deployments and verify `https://najmihardware.com/api/health` returns JSON with 58 products. If a local resolver still shows the old Hostinger page, compare public DNS before changing any records. Official route instructions: https://developers.cloudflare.com/workers/configuration/routing/routes/
+Check **Domains & Routes** after future deployments and verify `https://najmihardware.com/api/health` returns JSON with 65 products. If a local resolver still shows the old Hostinger page, compare public DNS before changing any records. Official route instructions: https://developers.cloudflare.com/workers/configuration/routing/routes/
 
 `INDEXING_ENABLED=true` permits indexing only on `najmihardware.com`; temporary `workers.dev` pages always get an HTTP noindex header and crawling is blocked in their robots file. After the real domain works, submit `https://najmihardware.com/sitemap.xml` and follow the `.net` migration steps in `docs/LAUNCH-AND-SEO.md`.
 

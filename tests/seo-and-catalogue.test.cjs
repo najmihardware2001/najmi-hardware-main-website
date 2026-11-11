@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),dist=path.join(root,'frontend/dist'),data=require('../catalogue/public-catalogue.json');
 test('complete catalogue, corrected photos and media are included',()=>{
- assert.equal(data.products.length,58);assert.equal(Object.values(data.configurations).reduce((n,c)=>n+c.specifications.length,0),398);
+ assert.equal(data.products.length,65);assert.equal(Object.values(data.configurations).reduce((n,c)=>n+c.specifications.length,0),438);
  const media=new Set();function scan(v){if(typeof v==='string'&&v.startsWith('/uploads/'))media.add(v);else if(Array.isArray(v))v.forEach(scan);else if(v&&typeof v==='object')Object.values(v).forEach(scan)}scan(data);
  for(const url of media)assert.ok(fs.existsSync(path.join(dist,url)),url);
  const photos=JSON.stringify(data.configurations[7849]);assert.ok(photos.includes('black-upright'));assert.ok(photos.includes('white-upright'));

@@ -13,7 +13,7 @@ test('container serves both language routes, product content and specification r
  for(const [route,content] of [['/','نجمي'],['/en/','Najmi Hardware'],['/en/shop','Ropes'],['/en/product/7849','Cotton Braided Rope']]){
   const r=await request(route);assert.equal(r.status,200,route);assert.ok((await r.text()).includes(content));assert.equal(r.headers.get('x-powered-by'),null);
  }
- const health=await (await request('/api/health')).json();assert.equal(health.database,'not-configured');assert.equal(health.products,58);
+ const health=await (await request('/api/health')).json();assert.equal(health.database,'not-configured');assert.equal(health.products,65);
  const spec=data.configurations[7849].specifications[0];
  const resolved=await request('/api/catalogue/resolve',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({parent_id:7849,criteria:{specification_id:spec.id,...spec.measurements,color:'White'}})});
  assert.equal(resolved.status,200);assert.equal((await resolved.json()).resolution.purchasable,false);

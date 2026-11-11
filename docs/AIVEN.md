@@ -9,7 +9,7 @@ In the GitHub deployment window shown in your screenshot:
 5. Review the plan/region and any charges displayed by Aiven, then click **Deploy** when ready. No hosting service is created by adding these repository files.
 6. Open the Application URL Aiven provides. Check `/`, `/en/`, `/en/shop`, `/en/product/7849`, `/api/health`, and a multi-item WhatsApp quote on a phone.
 
-No app secret is required for the current catalogue/WhatsApp mode. All 58 public products, approved images, colour selectors, gallery, local cart/quote basket and SEO pages are served by the same container. No Netlify function/proxy is needed on Aiven, and the app does not add a hosting badge.
+No app secret is required for the current catalogue/WhatsApp mode. All 65 public products, approved images, colour selectors, gallery, local cart/quote basket and SEO pages are served by the same container. No Netlify function/proxy is needed on Aiven, and the app does not add a hosting badge.
 
 **This does not activate the database-backed admin, login or stored orders.** `/api/health` continues to report `database: "not-configured"`. Creating a new empty PostgreSQL service alone would not migrate your existing catalogue/accounts; follow `backend/DEPLOYMENT.md` before activating the commerce backend.
 

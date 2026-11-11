@@ -11,9 +11,9 @@ async function request(route,{host='najmihardware.com',method='GET',body,indexin
  return (await worker()).fetch(r,{ASSETS:assets(),INDEXING_ENABLED:indexing});
 }
 test('Cloudflare Worker serves the public catalogue API and preserves every product',async()=>{
- const health=await request('/api/health');assert.equal(health.status,200);assert.equal((await health.json()).products,58);
+ const health=await request('/api/health');assert.equal(health.status,200);assert.equal((await health.json()).products,65);
  for(const p of data.products){const response=await request('/api/products/'+p.id);assert.equal(response.status,200);assert.deepEqual((await response.json()).product,p)}
- const first=await (await request('/api/products?limit=24')).json();assert.equal(first.products.length,24);assert.equal(first.total,58);
+ const first=await (await request('/api/products?limit=24')).json();assert.equal(first.products.length,24);assert.equal(first.total,65);
  const second=await (await request('/api/products?limit=24&cursor='+encodeURIComponent(first.next_cursor))).json();assert.equal(second.products[0].id,data.products[24].id);
 });
 test('Cloudflare Worker resolves actual size/length/colour options and gates private writes',async()=>{
